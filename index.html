@@ -77,29 +77,28 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#welcome-to-mkdocs">Welcome to MkDocs</a></li>
-            <li><a href="#commands">Commands</a></li>
-            <li><a href="#project-layout">Project layout</a></li>
+        <li class="main active"><a href="#welcome-to-e-coke">Welcome to e-Coke</a></li>
+            <li><a href="#running-locally">Running locally</a></li>
+            <li><a href="#running-tests-locally">Running tests locally</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="http://mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs help</code> - Print this help message.</li>
-</ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre>
-<p>zscfzxc</p></div>
+<h1 id="welcome-to-e-coke">Welcome to e-Coke</h1>
+<p>Live version at: <code>#link</code></p>
+<h2 id="running-locally">Running locally</h2>
+<ol>
+<li>You should have Python(3.5 or greater) and pip installed in your system.</li>
+<li>Clone the project into your local machine <code>git clone https://github.com/ErickMwazonga/e-Coke.git</code></li>
+<li><code>cd e-Coke</code></li>
+<li><code>pip install -r requirements.txt</code></li>
+<li>Run <code>python manage.py migrate</code> to create the database. Kindly note that PostgreSQL database is   used. Use or override the database settings declared in <code>ecoke/settings/base.py</code> accordingly.</li>
+<li>Run <code>python manage.py runserver</code> to start the server.</li>
+<li>Visit <code>localhost:8000</code> in your browser.</li>
+</ol>
+<h2 id="running-tests-locally">Running tests locally</h2>
+<p>All tests are located in <code>/tests</code>
+To run: <code>python manage.py test tests</code></p></div>
         </div>
 
         <footer class="col-md-12">
@@ -138,5 +137,5 @@ docs/
 
 <!--
 MkDocs version : 0.16.3
-Build Date UTC : 2017-08-27 05:34:11
+Build Date UTC : 2017-08-27 06:07:25
 -->

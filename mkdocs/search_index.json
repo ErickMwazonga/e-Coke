@@ -2,23 +2,23 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.\n\n\n\nzscfzxc",
+            "text": "Welcome to e-Coke\n\n\nLive version at: \n#link\n\n\nRunning locally\n\n\n\n\nYou should have Python(3.5 or greater) and pip installed in your system.\n\n\nClone the project into your local machine \ngit clone https://github.com/ErickMwazonga/e-Coke.git\n\n\ncd e-Coke\n\n\npip install -r requirements.txt\n\n\nRun \npython manage.py migrate\n to create the database. Kindly note that PostgreSQL database is   used. Use or override the database settings declared in \necoke/settings/base.py\n accordingly.\n\n\nRun \npython manage.py runserver\n to start the server.\n\n\nVisit \nlocalhost:8000\n in your browser.\n\n\n\n\nRunning tests locally\n\n\nAll tests are located in \n/tests\n\nTo run: \npython manage.py test tests",
             "title": "Home"
         },
         {
-            "location": "/#welcome-to-mkdocs",
-            "text": "For full documentation visit  mkdocs.org .",
-            "title": "Welcome to MkDocs"
+            "location": "/#welcome-to-e-coke",
+            "text": "Live version at:  #link",
+            "title": "Welcome to e-Coke"
         },
         {
-            "location": "/#commands",
-            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
-            "title": "Commands"
+            "location": "/#running-locally",
+            "text": "You should have Python(3.5 or greater) and pip installed in your system.  Clone the project into your local machine  git clone https://github.com/ErickMwazonga/e-Coke.git  cd e-Coke  pip install -r requirements.txt  Run  python manage.py migrate  to create the database. Kindly note that PostgreSQL database is   used. Use or override the database settings declared in  ecoke/settings/base.py  accordingly.  Run  python manage.py runserver  to start the server.  Visit  localhost:8000  in your browser.",
+            "title": "Running locally"
         },
         {
-            "location": "/#project-layout",
-            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.  zscfzxc",
-            "title": "Project layout"
+            "location": "/#running-tests-locally",
+            "text": "All tests are located in  /tests \nTo run:  python manage.py test tests",
+            "title": "Running tests locally"
         },
         {
             "location": "/api/",
