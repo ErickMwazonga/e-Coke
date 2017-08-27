@@ -6,8 +6,3 @@ if os.environ.get('DJANGO_MODE', 'PRODUCTION') == 'DEVELOPMENT':
     from .development import *
 else:
     from .production import *
-
-try:
-    from .local import *
-except ImportError:
-    pass
