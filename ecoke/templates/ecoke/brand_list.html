@@ -1,0 +1,80 @@
+<!-- a list of brands -->
+{% extends 'ecoke/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Brands{{ block.super }}{% endblock title %}
+
+<!-- block to load the js file -->
+{% block javascript %}
+  <script src="{% static 'ecoke/js/modal.js' %}"></script>
+{% endblock javascript %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="page-header">Brands</h1>
+
+    <div class="">
+        <div class="col-md-4">
+            <p>
+                <button type="button"
+                      class="btn btn-primary js-create-brand"
+                      data-url="{% url 'ecoke:brand_create' %}">
+                <span class="glyphicon glyphicon-plus"></span>
+                New Brand
+              </button>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6">
+                {% include "ecoke/includes/brand_search.html" %}
+            </div>
+            <div class="col-md-6 refresh">
+                <a type="button"
+                        class="btn btn-primary"
+                        href="{% url 'ecoke:brands' %}">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    Refresh
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-2 export">
+            <a type="button"
+                    class="btn btn-primary"
+                    href="{% url 'ecoke:export_csv' %}">
+                <span class="glyphicon glyphicon glyphicon-export"></span>
+                Export
+            </a>
+        </div>
+    </div>
+
+
+
+    <table class="table" id="brand-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Collector Name</th>
+          <th>Respondent Name</th>
+          <th>Respondent City</th>
+          <th>Favourite Drink</th>
+          <th>Date of Collection</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% include 'ecoke/includes/partial_brand_list.html' %}
+      </tbody>
+    </table>
+
+    <!-- THE MODAL WE WILL BE USING -->
+    <div class="modal fade" id="modal-brand">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}
