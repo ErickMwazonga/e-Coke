@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to e-Coke\n\n\nLive version at: \n#link\n\n\nRunning locally\n\n\n\n\nYou should have Python(3.5 or greater) and pip installed in your system.\n\n\nClone the project into your local machine \ngit clone https://github.com/ErickMwazonga/e-Coke.git\n\n\ncd e-Coke\n\n\npip install -r requirements.txt\n\n\nRun \npython manage.py migrate\n to create the database. Kindly note that PostgreSQL database is   used. Use or override the database settings declared in \necoke/settings/base.py\n accordingly.\n\n\nRun \npython manage.py runserver\n to start the server.\n\n\nVisit \nlocalhost:8000\n in your browser.\n\n\n\n\nRunning tests locally\n\n\nAll tests are located in \n/tests\n\nTo run: \npython manage.py test tests",
+            "text": "Welcome to e-Coke\n\n\nLive version at: \ne-Coke\n\n\nRunning locally\n\n\n\n\nYou should have Python(3.5 or greater) and pip installed in your system.\n\n\nClone the project into your local machine \ngit clone https://github.com/ErickMwazonga/e-Coke.git\n\n\ncd e-Coke\n\n\npip install -r requirements.txt\n\n\nRun \npython manage.py migrate\n to create the database. Kindly note that PostgreSQL database is   used. Use or override the database settings declared in \necoke/settings/base.py\n accordingly.\n\n\nRun \npython manage.py runserver\n to start the server.\n\n\nVisit \nlocalhost:8000\n in your browser.\n\n\n\n\nRunning tests locally\n\n\nAll tests are located in \n/tests\n\nTo run: \npython manage.py test tests",
             "title": "Home"
         },
         {
             "location": "/#welcome-to-e-coke",
-            "text": "Live version at:  #link",
+            "text": "Live version at:  e-Coke",
             "title": "Welcome to e-Coke"
         },
         {
