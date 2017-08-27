@@ -22,5 +22,5 @@ before_script:
     - psql -c "CREATE DATABASE ecoke;" -U postgres
 # command to run tests
 script:
-    - python manage.py syncdb --noinput
+    - python manage.py migrate
     - python manage.py test tests
