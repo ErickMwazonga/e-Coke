@@ -1,0 +1,36 @@
+*.pyc
+*.sqlite3
+.DS_Store
+/site
+
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+local.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg

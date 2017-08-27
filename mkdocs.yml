@@ -1,0 +1,7 @@
+site_name: e-Coke
+pages:
+    - Home: index.md
+    - API: api.md
+
+site_author: Erick Mwazonga
+site_description: Collecting soft drinks brands data in a given location
