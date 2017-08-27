@@ -1,0 +1,49 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.\n\n\n\nzscfzxc",
+            "title": "Home"
+        },
+        {
+            "location": "/#welcome-to-mkdocs",
+            "text": "For full documentation visit  mkdocs.org .",
+            "title": "Welcome to MkDocs"
+        },
+        {
+            "location": "/#commands",
+            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
+            "title": "Commands"
+        },
+        {
+            "location": "/#project-layout",
+            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.  zscfzxc",
+            "title": "Project layout"
+        },
+        {
+            "location": "/api/",
+            "text": "e-Coke API Version 1.0\n\n\nThis is a documentation of all the REST endpoints exposed by e-Coke API.\nToken based authentication, using JSON web tokens is required for accessing in\nof the endpoints documented herein.\n\n\nResources\n\n\n\n\nBrands\n\n\n\n\nBrands\n\n\nSoft drink brand information collected in a given location\n\n\nEndpoints\n\n\n\n\nPOST \napi/brands/create\n- Create a single brand in the database.\n\n\nGET \napi/brands\n - List all brands in the database.\n\n\nGET \napi/brands/{id}\n - Get a single brand by its id.\n\n\nPUT \napi/brands/{id}/update\n - Retrieve and update a single brand.\n\n\nDELETE \napi/brands/{id}/delete\n - Delete a single brand from the database.",
+            "title": "API"
+        },
+        {
+            "location": "/api/#e-coke-api-version-10",
+            "text": "This is a documentation of all the REST endpoints exposed by e-Coke API.\nToken based authentication, using JSON web tokens is required for accessing in\nof the endpoints documented herein.",
+            "title": "e-Coke API Version 1.0"
+        },
+        {
+            "location": "/api/#resources",
+            "text": "Brands",
+            "title": "Resources"
+        },
+        {
+            "location": "/api/#brands",
+            "text": "Soft drink brand information collected in a given location",
+            "title": "Brands"
+        },
+        {
+            "location": "/api/#endpoints",
+            "text": "POST  api/brands/create - Create a single brand in the database.  GET  api/brands  - List all brands in the database.  GET  api/brands/{id}  - Get a single brand by its id.  PUT  api/brands/{id}/update  - Retrieve and update a single brand.  DELETE  api/brands/{id}/delete  - Delete a single brand from the database.",
+            "title": "Endpoints"
+        }
+    ]
+}
