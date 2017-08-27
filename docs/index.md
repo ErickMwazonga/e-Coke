@@ -1,5 +1,5 @@
 # Welcome to e-Coke
-Live version at: `#link`
+Live version at: [e-Coke](https://ecoke.herokuapp.com/)
 
 ## Running locally
 1. You should have Python(3.5 or greater) and pip installed in your system.
