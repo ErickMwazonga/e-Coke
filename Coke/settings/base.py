@@ -146,6 +146,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 LOGIN_URL = 'ecoke:login'
 LOGIN_REDIRECT_URL = 'ecoke:index'
 
+ASSETS_ROOT = 'ecoke/static'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
