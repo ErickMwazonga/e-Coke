@@ -2,7 +2,6 @@ Django==1.11.4
 django-crispy-forms==1.6.1
 django-filter==1.0.4
 djangorestframework==3.6.4
-Markdown==2.6.9
 psycopg2==2.7.3
-pytz==2017.2
 djangorestframework-jwt==1.11.0
+mkdocs==0.16.3

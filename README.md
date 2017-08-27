@@ -1,16 +1,8 @@
-### e-Coke API Version 1.0
-This is a documentation of all the REST endpoints exposed by e-Coke API.
-Token based authentication, using JSON web tokens is required for accessing in
-of the endpoints documented herein.
+### e-Coke Application
+This is an application used in collecting and managing data of brands of soft-drinks people drink in a given location.
 
-### Resources
-1. Brands
+It comprises of a Web based Admin Dashboard and a REST API using JSON Web Tokens for client request Authentication.
 
-### Brands
-Soft drink brand information collected in a given location
-##### Endpoints
-1. POST `api/brands/create `- Create a single brand in the database.
-2. GET `api/brands` - List all brands in the database.
-3. GET `api/brands/{id}` - Get a single brand by its id.
-4. PUT `api/brands/{id}/update` - Retrieve and update a single brand.
-5. DELETE `api/brands/{id}/delete` - Delete a single brand from the database.
+A live version of the application can be found at `#link`
+
+For further documentation on running the application locally and API documentation can be found at [e-Coke Documentation](https://erickmwazonga.github.io/e-Coke)
