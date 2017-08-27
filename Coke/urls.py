@@ -20,5 +20,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('ecoke.urls')),
     url(r'^api/brands/', include('ecoke.api.brands.urls')),
-    url(r'^api/users/', include('ecoke.api.users.urls')),
 ]
