@@ -1,0 +1,5 @@
+<div class="list-group">
+  	<a href="{% url 'ecoke:edit_profile' %}" class="list-group-item{% if active == 'profile' %} active{% endif %}">Profile</a>
+  	<a href="" class="list-group-item{% if active == 'picture' %} active{% endif %}">Picture</a>
+ 	<a href="{% url 'ecoke:change_password' %}" class="list-group-item{% if active == 'password' %} active{% endif %}">Change Password</a>
+</div>

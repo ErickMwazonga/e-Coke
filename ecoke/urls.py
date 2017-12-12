@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.views.generic.edit import CreateView
 
 from . import views
+from .forms import UserCreateForm
 from .views import IndexView, BrandListView, LoginView
 
 app_name = 'ecoke'
@@ -17,13 +18,15 @@ urlpatterns = [
     url(r'^brands$', BrandListView.as_view(), name='brands'),
     url(r'^login$', LoginView.as_view(), name='login'),
     url('^register/', CreateView.as_view(
-            template_name = 'ecoke/register.html',
-            form_class = UserCreationForm,
-            success_url = '/login'
+            template_name='ecoke/register.html',
+            form_class=UserCreateForm,
+            success_url='/login'
     ),
-        name = 'register'
+        name='register'
     ),
     url(r'^logout/$', auth_views.logout_then_login, {'login_url': 'ecoke:login'}, name='logout'),
+    url(r'^settings/edit-profile$', views.edit_profile, name='edit_profile'),
+    url(r'^settings/change-password/$', views.change_password, name='change_password'),
 
     url(r'^brand/csv$', views.export_csv, name="export_csv"),
 ]

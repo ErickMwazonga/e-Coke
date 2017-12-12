@@ -76,3 +76,15 @@ a {
 .export{
     float: right;
 }
+
+/* modal */
+.modal-header
+{
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #5c2040 !important;
+    color: #fff;
+}
+.settings-content {
+  padding: 20px 30px;
+}
