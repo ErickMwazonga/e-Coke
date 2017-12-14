@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 
 from . import views
 from .forms import UserCreateForm
-from .views import IndexView, BrandListView, LoginView
+from .views import IndexView, BrandListView, LoginView, ProfileDetailView
 
 app_name = 'ecoke'
 
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout_then_login, {'login_url': 'ecoke:login'}, name='logout'),
     url(r'^settings/edit-profile$', views.edit_profile, name='edit_profile'),
     url(r'^settings/change-password/$', views.change_password, name='change_password'),
+    url(r'^settings/profile/(?P<slug>[\w-]+)/$', views.ProfileDetailView.as_view(), name='profile'),
 
     url(r'^brand/csv$', views.export_csv, name="export_csv"),
 ]

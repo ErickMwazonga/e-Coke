@@ -2,27 +2,29 @@
 from __future__ import unicode_literals
 import csv
 # Django importd
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
-from django.db.models import Sum, Q
-from django.views.generic.edit import CreateView
-from django.views.generic import View, TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView
 # App imports
 from .models import Brand
 from .forms import BrandForm, BrandSearchForm, ProfileForm, ChangePasswordForm
 
-# Create your views here.
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'ecoke/profile.html'
+    slug_field = "username"
+
+
 # index view
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'ecoke/index.html'
@@ -36,8 +38,8 @@ class LoginView(BaseLoginView):
 # Create CBV for listing the brands
 class BrandListView(LoginRequiredMixin, ListView):
     context_object_name = 'brands'
-    model               = Brand
-    template_name       = 'ecoke/brand_list.html'
+    model = Brand
+    template_name = 'ecoke/brand_list.html'
 
     def get_queryset(self):
         queryset = super(BrandListView, self).get_queryset().order_by('-collector_name')
@@ -80,6 +82,7 @@ def brand_create(request):
         form = BrandForm()
     return save_brand_form(request, form, 'ecoke/brand_form.html')
 
+
 # update brand
 @login_required()
 def brand_update(request, pk):
@@ -111,14 +114,14 @@ def brand_delete(request, pk):
     return JsonResponse(data)
 
 
-#creating a view for exporting csv
+# creating a view for exporting csv
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="ecoke.csv"'
 
-    brands      = Brand.objects.all()
-    headings    = ['Collector', 'Respondent', 'City', 'Favourite Drink', 'Date of Collection']
-    writer      = csv.writer(response)
+    brands = Brand.objects.all()
+    headings = ['Collector', 'Respondent', 'City', 'Favourite Drink', 'Date of Collection']
+    writer = csv.writer(headings)
 
     for brand in brands:
         writer.writerow([brand.collector_name, brand.respondent_name, brand.respondent_city, brand.favourite_drink, brand.date_of_collection])
@@ -131,7 +134,7 @@ def edit_profile(request):
     user = request.user
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             user.first_name = form.cleaned_data.get('first_name')
             user.last_name = form.cleaned_data.get('last_name')
@@ -139,6 +142,7 @@ def edit_profile(request):
             user.profile.job_title = form.cleaned_data.get('job_title')
             user.profile.bio = form.cleaned_data.get('bio')
             user.profile.location = form.cleaned_data.get('location')
+            user.profile.avatar = form.cleaned_data.get('avatar')
             user.save()
             messages.add_message(request,
                                  messages.SUCCESS,
@@ -148,11 +152,11 @@ def edit_profile(request):
         form = ProfileForm(instance=user, initial={
             'job_title': user.profile.job_title,
             'bio': user.profile.bio,
-            'location': user.profile.location
+            'location': user.profile.location,
+            'avatar': user.profile.avatar,
             })
 
     return render(request, 'ecoke/change_profile.html', {'form': form})
-
 
 
 @login_required

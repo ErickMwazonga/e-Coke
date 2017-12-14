@@ -12,7 +12,7 @@
     </div>
     <div class="row" style="margin-top: 2em">
         <div class="col-md-3">
-            {% include 'ecoke/includes/_settings_menu.html' with active='profile' %}
+            {% include 'ecoke/includes/_settings_menu.html' with active='change_profile' %}
         </div>
 
         <div class="col-md-9">
@@ -29,13 +29,13 @@
                     </div>
                   {% endfor %}
                 {% endif %}
-                <form class="form-horizontal" role="form" action="" method="post">
+                <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <button class="btn btn-primary" type="submit" name="button">Save</button>
                 </form>
             </div>
-          </div>  
+          </div>
 
         </div>
     </div>

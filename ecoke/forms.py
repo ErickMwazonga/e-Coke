@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, MultiWidgetField, Submit
 # App imports
-from .models import Brand, Profile
+from .models import Brand
 
 
 class UserCreateForm(UserCreationForm):
@@ -14,53 +14,7 @@ class UserCreateForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
-
-
-class BrandForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(BrandForm, self).__init__(*args, **kwargs)
-        self.helper             = FormHelper()
-        self.helper.form_tag    = False
-
-        self.helper.layout = Layout(
-            'collector_name',
-            'respondent_name',
-            'respondent_city',
-            'favourite_drink',
-            MultiWidgetField(
-                'date_of_collection',
-                attrs=(
-                    {'style': 'width: 32.7%; display: inline-block;'}
-                )
-            ),
-        )
-
-    class Meta:
-        model   = Brand
-        fields  = ['collector_name', 'respondent_name', 'respondent_city', 'favourite_drink', 'date_of_collection']
-
-        widgets = {
-            'date_of_collection': forms.SelectDateWidget(years=[str(val) for val in range(2005, 2020)]),
-        }
-
-
-class BrandSearchForm(forms.Form):
-    collector_name = forms.ModelChoiceField(
-        queryset = Brand.objects.values_list('collector_name', flat=True),
-        empty_label  = "Choose a Collector"
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(BrandSearchForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_class = 'form-inline'
-        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
-        self.helper.layout = Layout(
-            'collector_name',
-            Submit('Search', 'search', css_class='btn-default'),
-        )
-        self.helper.form_method = 'get'
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 class ProfileForm(forms.ModelForm):
@@ -88,12 +42,12 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=False)
+    avatar = forms.ImageField(required=False)
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'job_title',
-                  'email', 'bio', 'location', ]
-
+                  'email', 'bio', 'location', 'avatar', ]
 
 
 class ChangePasswordForm(forms.ModelForm):
@@ -122,9 +76,7 @@ class ChangePasswordForm(forms.ModelForm):
         new_password = self.cleaned_data.get('new_password')
         confirm_password = self.cleaned_data.get('confirm_password')
         id = self.cleaned_data.get('id')
-        
         user = User.objects.get(pk=id)
-
         if not user.check_password(old_password):
             self._errors['old_password'] = self.error_class([
                 'Old password don\'t match'])
@@ -132,3 +84,49 @@ class ChangePasswordForm(forms.ModelForm):
             self._errors['new_password'] = self.error_class([
                 'Passwords don\'t match'])
         return self.cleaned_data
+
+
+class BrandForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BrandForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+        self.helper.layout = Layout(
+            'collector_name',
+            'respondent_name',
+            'respondent_city',
+            'favourite_drink',
+            MultiWidgetField(
+                'date_of_collection',
+                attrs=(
+                    {'style': 'width: 32.7%; display: inline-block;'}
+                )
+            ),
+        )
+
+    class Meta:
+        model = Brand
+        fields = ['collector_name', 'respondent_name', 'respondent_city', 'favourite_drink', 'date_of_collection']
+
+        widgets = {
+            'date_of_collection': forms.SelectDateWidget(years=[str(val) for val in range(2005, 2020)]),
+        }
+
+
+class BrandSearchForm(forms.Form):
+    collector_name = forms.ModelChoiceField(
+        queryset = Brand.objects.values_list('collector_name', flat=True),
+        empty_label = "Choose a Collector"
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(BrandSearchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-inline'
+        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
+        self.helper.layout = Layout(
+            'collector_name',
+            Submit('Search', 'search', css_class='btn-default'),
+        )
+        self.helper.form_method = 'get'

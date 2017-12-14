@@ -14,6 +14,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     job_title = models.CharField(max_length=50, null=True, blank=True)
+    avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
 
     def get_screen_name(self):
         try:
@@ -23,7 +24,7 @@ class Profile(models.Model):
                 return self.user.username
         except:
             return self.user.username
-            
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):

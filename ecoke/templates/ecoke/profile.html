@@ -1,5 +1,6 @@
 {% extends 'ecoke/base.html' %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block title %} Home {{ block.super }}{% endblock %}
 
@@ -14,68 +15,46 @@
         </div>
 
         <div class="col-md-9">
-          <div class="panel panel-primary">
-            <div class="panel-heading main-color-bg">
-                <h3 class="panel-title">Profile</h3>
-            </div>
-            <div class="cpanel panel-body settings-content">
-              
-                <div class="row">
-                  <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> 
-                  </div>
-
-                  <div class=" col-md-9 col-lg-9 "> 
-                    <table class="table table-user-information">
-                      <tbody>
-                        <tr>
-                          <td>Department:</td>
-                          <td>Programming</td>
-                        </tr>
-                        <tr>
-                          <td>Hire date:</td>
-                          <td>06/23/2013</td>
-                        </tr>
-                        <tr>
-                          <td>Date of Birth</td>
-                          <td>01/24/1988</td>
-                        </tr>
-                     
-                           <tr>
-                               <tr>
-                          <td>Gender</td>
-                          <td>Female</td>
-                        </tr>
-                          <tr>
-                          <td>Home Address</td>
-                          <td>Kathmandu,Nepal</td>
-                        </tr>
-                        <tr>
-                          <td>Email</td>
-                          <td><a href="mailto:info@support.com">info@support.com</a></td>
-                        </tr>
-                          <td>Phone Number</td>
-                          <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
-                          </td>
-                             
-                        </tr>
-                       
-                      </tbody>
-                    </table>
-                  </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading main-color-bg">
+                    <h3 class="panel-title">Profile</h3>
                 </div>
-              </div>
-              <div class="panel-footer">
-                <span class="pull-right">
-                    <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                </span>
-              </div>
-            
-          </div>
-        </div>
+                <div class="cpanel panel-body settings-content">
+                    <div class="well well-sm">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                                {% if user.profile.avatar %}
+                                  <img src="{{ user.profile.avatar.url }}" class="img-rounded img-responsive">
+                                {% else %}
+                                  <img src="{% static 'ecoke/images/avatar.png' %}" class="img-rounded img-responsive">
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6 col-md-8">
+                                <h4>{{ user.profile.get_screen_name }}</h4>
 
+                                {% if user.profile.job_title %}
+                                <h5>{{ user.profile.job_title }}</h5>
+                                {% endif %}
 
+                                {% if user.profile.location %}
+                                <i class="glyphicon glyphicon-map-marker"></i>{{ user.profile.location }}
+                                {% endif %}
+
+                                <p>
+                                    {% if user.profile.bio %}
+                                    <i class="glyphicon glyphicon-user"></i>{{ user.profile.bio }}
+                                    {% endif %}
+
+                                    <br />
+                                    <i class="glyphicon glyphicon-envelope"></i>{{ user.email }}
+                                    <br />
+                                </p>
+                                <a href="{% url 'ecoke:edit_profile' %}" class="btn btn-primary" type="button" name="button">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>  
 
         </div>
     </div>
