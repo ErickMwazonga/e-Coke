@@ -30,10 +30,10 @@
                                 {% endif %}
                             </div>
                             <div class="col-sm-6 col-md-8">
-                                <h4>{{ user.profile.get_screen_name }}</h4>
+                                <h4>{{ user.profile.get_screen_name | title }}</h4>
 
                                 {% if user.profile.job_title %}
-                                <h5>{{ user.profile.job_title }}</h5>
+                                <h5>{{ user.profile.job_title | capfirst }}</h5>
                                 {% endif %}
 
                                 {% if user.profile.location %}
