@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, MultiWidgetField, Submit
 # App imports
-from .models import Brand
+from .models import Brand, Feedback
 
 
 class UserCreateForm(UserCreationForm):
@@ -130,3 +130,9 @@ class BrandSearchForm(forms.Form):
             Submit('Search', 'search', css_class='btn-default'),
         )
         self.helper.form_method = 'get'
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'email', 'message']

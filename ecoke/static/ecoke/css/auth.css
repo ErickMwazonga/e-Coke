@@ -54,3 +54,9 @@ body {
 a {
   color:  #5c2040;
 }
+
+.errorlist {
+    list-style: none;
+    color: red;
+    padding-left: 5px;
+}

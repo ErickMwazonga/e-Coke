@@ -110,3 +110,21 @@ small {
   line-height: 1.428571429;
   color: #999;
 }
+
+/* Contact form*/
+#box{
+    border: 1px solid rgb(200, 200, 200);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+    background: rgba(200, 200, 200, 0.1);
+    border-radius: 4px;
+    top:50px;
+}
+
+.h2-box{
+    text-align:center;
+    color:#fff;
+}
+
+.input-group-addon {
+    padding-bottom: 0 !important;
+}

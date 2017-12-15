@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import csv
 # Django importd
+from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
@@ -13,10 +14,11 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
+from django.core.mail import mail_admins
 from django.views.generic import TemplateView, ListView, DetailView
 # App imports
 from .models import Brand
-from .forms import BrandForm, BrandSearchForm, ProfileForm, ChangePasswordForm
+from .forms import BrandForm, BrandSearchForm, ProfileForm, ChangePasswordForm, FeedbackForm
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
@@ -26,7 +28,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
 
 # index view
-class IndexView(LoginRequiredMixin, TemplateView):
+class IndexView(TemplateView):
     template_name = 'ecoke/index.html'
 
 
@@ -147,16 +149,58 @@ def edit_profile(request):
             messages.add_message(request,
                                  messages.SUCCESS,
                                  'Your profile was successfully edited.')
-
+            return redirect(reverse('ecoke:profile', kwargs={'slug':user.username}))
     else:
         form = ProfileForm(instance=user, initial={
             'job_title': user.profile.job_title,
             'bio': user.profile.bio,
             'location': user.profile.location,
             'avatar': user.profile.avatar,
-            })
+        })
 
     return render(request, 'ecoke/change_profile.html', {'form': form})
+
+
+def feedback(request, username=None):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            email_prefix = settings.EMAIL_SUBJECT_PREFIX
+
+            subject = " {}- A New Feedback".format(email_prefix)
+            ctx = {
+                'name': name,
+                'email': email,
+                'message': message
+            }
+            message = render_to_string('ecoke/includes/email_feedback.txt', ctx)
+
+            mail_admins(subject, message)
+            form.save()
+
+            messages.add_message(request, messages.SUCCESS,
+                                 'Thank you for your Feedback.')
+            return redirect(reverse('ecoke:index'))
+
+    else:
+        if request.user.is_authenticated():
+            user = get_object_or_404(User, username=username)
+            form = FeedbackForm(instance=user, initial={
+                'name': user.profile.get_screen_name,
+                'email': user.email,
+            })
+        else:
+            form = FeedbackForm(initial={
+                'name': '',
+                'email': '',
+            })
+
+    return render(request, 'ecoke/feedback.html', {'form': form})
 
 
 @login_required

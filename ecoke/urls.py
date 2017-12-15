@@ -1,12 +1,11 @@
-from django.conf.urls import url, include
-from django.contrib import admin
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.views.generic.edit import CreateView
+from django.contrib.auth.decorators import login_required
 
 from . import views
 from .forms import UserCreateForm
-from .views import IndexView, BrandListView, LoginView, ProfileDetailView
+from .views import IndexView, BrandListView, LoginView
 
 app_name = 'ecoke'
 
@@ -28,6 +27,9 @@ urlpatterns = [
     url(r'^settings/edit-profile$', views.edit_profile, name='edit_profile'),
     url(r'^settings/change-password/$', views.change_password, name='change_password'),
     url(r'^settings/profile/(?P<slug>[\w-]+)/$', views.ProfileDetailView.as_view(), name='profile'),
+
+    url(r'^feedback/$', views.feedback, name='feedback'),
+    url(r'^feedback/(?P<username>[\w-]+)/$', login_required(views.feedback), name='feedback'),
 
     url(r'^brand/csv$', views.export_csv, name="export_csv"),
 ]

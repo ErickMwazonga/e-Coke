@@ -33,6 +33,15 @@ def save_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
 
+class Feedback(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name + "-" +  self.email
+
+
 # Create your models here.
 class Brand(models.Model):
     '''

@@ -1,0 +1,12 @@
+Hello,
+
+<hr/>
+
+I am {{ name|title }} of <i>{{ email }}</i>
+
+My Feedback is: 
+{{ message }}
+
+Kindly consider this.
+
+Thanks
