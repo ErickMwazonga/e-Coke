@@ -37,15 +37,12 @@
           </button>
           <a class="navbar-brand" href="{% url 'ecoke:index' %}">The e-Coke</a>
         </div>
-
-         <p>Account activated! Please <a href="{% url 'ecoke:login' %}">login</a></p>
-
       </div>
     </nav>
 
-
-    <!-- content block -->
-    {% block content %} {% endblock content %}
+    <div class="container">
+        <p>Account activated! Please <a href="{% url 'ecoke:login' %}">login</a></p>
+    </div>
 
     <br/>
     <footer class="footer">
