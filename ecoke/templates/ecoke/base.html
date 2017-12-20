@@ -50,7 +50,7 @@
                         {% if user.profile.avatar %}
                           <img src="{{ user.profile.avatar.url }}" class="avatar">
                         {% else %}
-                          {{ user.profile.get_screen_name }}
+                          {{ user.profile.get_screen_name | title }}
                         {% endif %}
                       </a>
                       <ul class="dropdown-menu">

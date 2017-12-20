@@ -5,8 +5,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-
-from datetime import date
+from django.utils import timezone
 
 
 class Profile(models.Model):
@@ -75,7 +74,7 @@ class Brand(models.Model):
     respondent_name = models.CharField(max_length=255)
     respondent_city = models.CharField(max_length=255)
     favourite_drink = models.CharField(max_length=20, choices=DRINKS)
-    date_of_collection = models.DateField(default=date.today)
+    date_of_collection = models.DateField(default=timezone.now().date())
 
     def __str__(self):
         return '%s-%s' % (self.respondent_name, self.favourite_drink)

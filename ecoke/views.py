@@ -149,7 +149,7 @@ def edit_profile(request):
             messages.add_message(request,
                                  messages.SUCCESS,
                                  'Your profile was successfully edited.')
-            return redirect(reverse('ecoke:profile', kwargs={'slug':user.username}))
+            return redirect(reverse('ecoke:profile', kwargs={'slug': user.username}))
     else:
         form = ProfileForm(instance=user, initial={
             'job_title': user.profile.job_title,
@@ -170,17 +170,15 @@ def feedback(request, username=None):
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
 
-            email_prefix = settings.EMAIL_SUBJECT_PREFIX
-
-            subject = " {}- A New Feedback".format(email_prefix)
+            subject = "- A New Feedback"
             ctx = {
                 'name': name,
                 'email': email,
                 'message': message
             }
-            message = render_to_string('ecoke/includes/email_feedback.txt', ctx)
+            message = render_to_string('ecoke/includes/email_feedback.html', ctx)
 
-            mail_admins(subject, message)
+            mail_admins(subject, message, fail_silently=True, html_message="text/html")
             form.save()
 
             messages.add_message(request, messages.SUCCESS,
