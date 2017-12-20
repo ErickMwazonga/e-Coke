@@ -71,3 +71,7 @@ class BrandModelTest(TestCase):
     # test absolute urls
     # def test_get_absolute_url(self):
     #     self.assertEquals(self.brand.get_absolute_url(), '/brand/1')
+
+
+class ProfileModelTest(TestCase):
+    pass

@@ -15,6 +15,9 @@ class Profile(models.Model):
     job_title = models.CharField(max_length=50, null=True, blank=True)
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
 
+    activation_key = models.CharField(max_length=255, default=1)
+    email_validated = models.BooleanField(default=False)
+
     def get_screen_name(self):
         try:
             if self.user.get_full_name():
@@ -38,7 +41,7 @@ class Feedback(models.Model):
     message = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.name + "-" +  self.email
+        return self.name + "-" + self.email
 
 
 # Create your models here.

@@ -11,14 +11,17 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, redirect, reverse, Http404
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
-from django.core.mail import mail_admins
-from django.views.generic import TemplateView, ListView, DetailView
+from django.core.mail import send_mail, mail_admins
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from . import helpers
+# from .helpers import generate_activation_key
 # App imports
-from .models import Brand
-from .forms import BrandForm, BrandSearchForm, ProfileForm, ChangePasswordForm, FeedbackForm
+from .models import Brand, Profile
+from .forms import BrandForm, BrandSearchForm, ProfileForm, \
+                    ChangePasswordForm, FeedbackForm, UserCreateForm
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
@@ -35,6 +38,91 @@ class IndexView(TemplateView):
 class LoginView(BaseLoginView):
     template_name = 'ecoke/login.html'
     authentication_form = AuthenticationForm
+
+
+class RegisterCreateView(CreateView):
+    template_name = 'ecoke/register.html',
+    form_class = UserCreateForm,
+    success_url = '/register'
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password']
+        # send email verification now
+        activation_key = helpers.generate_activation_key(username)
+        subject = "Account Verification"
+
+        message = '''\n Please visit the following link to verify your account
+                    \n\n{0}://{1}/ecoke/activate/account/?key={2}
+                    '''.format(self.request.scheme, self.request.get_host(), activation_key)
+
+        error = False
+        try:
+            send_mail(subject, message, settings.EMAIL_HOSgenerate_activation_keyT_USER, [email])
+            messages.add_message(self.request, messages.INFO, 'Account created! Click on the link sent to your email to activate the account')
+        except:
+            error = True
+            messages.add_message(self.request, messages.INFO, 'Unable to send email verification. Please try again')
+
+        if not error:
+            user = User.objects.create_user(
+                username,
+                email,
+                password,
+                is_active=0
+            )
+
+            profile = Profile()
+            profile.activation_key = activation_key
+            profile.user = user
+            profile.save()
+
+        return super(RegisterCreateView, self).form_valid(form)
+
+
+def activate_account(request):
+    key = request.GET['key']
+    if not key:
+        raise Http404
+
+    r = get_object_or_404(Profile, activation_key=key, email_validated=False)
+    r.user.is_active = True
+    r.user.save()
+    r.email_validated = True
+    r.save()
+
+    return render(request, 'ecoke/includes/activated.html')
+
+
+@login_required
+def edit_profile(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            user.profile.job_title = form.cleaned_data.get('job_title')
+            user.profile.bio = form.cleaned_data.get('bio')
+            user.profile.location = form.cleaned_data.get('location')
+            user.profile.avatar = form.cleaned_data.get('avatar')
+            user.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your profile was successfully edited.')
+            return redirect(reverse('ecoke:profile', kwargs={'slug': user.username}))
+    else:
+        form = ProfileForm(instance=user, initial={
+            'job_title': user.profile.job_title,
+            'bio': user.profile.bio,
+            'location': user.profile.location,
+            'avatar': user.profile.avatar,
+        })
+
+    return render(request, 'ecoke/change_profile.html', {'form': form})
 
 
 # Create CBV for listing the brands
@@ -129,36 +217,6 @@ def export_csv(request):
         writer.writerow([brand.collector_name, brand.respondent_name, brand.respondent_city, brand.favourite_drink, brand.date_of_collection])
 
     return response
-
-
-@login_required
-def edit_profile(request):
-    user = request.user
-
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            user.first_name = form.cleaned_data.get('first_name')
-            user.last_name = form.cleaned_data.get('last_name')
-            user.email = form.cleaned_data.get('email')
-            user.profile.job_title = form.cleaned_data.get('job_title')
-            user.profile.bio = form.cleaned_data.get('bio')
-            user.profile.location = form.cleaned_data.get('location')
-            user.profile.avatar = form.cleaned_data.get('avatar')
-            user.save()
-            messages.add_message(request,
-                                 messages.SUCCESS,
-                                 'Your profile was successfully edited.')
-            return redirect(reverse('ecoke:profile', kwargs={'slug': user.username}))
-    else:
-        form = ProfileForm(instance=user, initial={
-            'job_title': user.profile.job_title,
-            'bio': user.profile.bio,
-            'location': user.profile.location,
-            'avatar': user.profile.avatar,
-        })
-
-    return render(request, 'ecoke/change_profile.html', {'form': form})
 
 
 def feedback(request, username=None):
