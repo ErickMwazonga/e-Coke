@@ -27,6 +27,9 @@ class Profile(models.Model):
         except:
             return self.user.username
 
+    def __str__(self):
+        return self.user.username
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, created, **kwargs):

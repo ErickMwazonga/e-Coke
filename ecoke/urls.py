@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 from . import views
-from .views import IndexView, BrandListView, LoginView, RegisterCreateView
+from .views import IndexView, BrandListView, LoginView
 
 app_name = 'ecoke'
 
@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^brand/(?P<pk>\d+)/delete/$', views.brand_delete, name='brand_delete'),
     url(r'^brands$', BrandListView.as_view(), name='brands'),
     url(r'^login$', LoginView.as_view(), name='login'),
-    url('^register/', RegisterCreateView.as_view(), name='register'),
+    url('^register/', views.register, name='register'),
     url(r'^activate/account/$', views.activate_account, name='activate'),
     url(r'^logout/$', auth_views.logout_then_login, {'login_url': 'ecoke:login'}, name='logout'),
     url(r'^settings/edit-profile$', views.edit_profile, name='edit_profile'),

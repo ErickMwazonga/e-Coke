@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>ECOKE FEEDBACK</title>
+<title>Activate Account</title>
 <style>
     /* -------------------------------------
     GLOBAL
@@ -236,17 +236,22 @@
 							<table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
 									<td class="content-block">
-										{{ name|title }} << <h4>{{ email }}</h4> >> says
+										Dear {{ user.username | capfirst }}
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										{{ message }}
+										Your account has successfully created. Please click below link to activate your account.
+									</td>
+								</tr>
+								<tr>
+									<td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+										<a href="{{ activate_url }}" class="btn-primary" itemprop="url"> Activate your account </a>
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										&mdash; eCoke-Citadel Technology
+										&mdash; Citadel Technology
 									</td>
 								</tr>
 							</table>

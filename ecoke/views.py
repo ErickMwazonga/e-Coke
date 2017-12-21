@@ -14,10 +14,9 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.shortcuts import render, get_object_or_404, redirect, reverse, Http404
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
-from django.core.mail import send_mail, mail_admins
+from django.core.mail import send_mail, mail_admins, EmailMultiAlternatives
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from . import helpers
-# from .helpers import generate_activation_key
 # App imports
 from .models import Brand, Profile
 from .forms import BrandForm, BrandSearchForm, ProfileForm, \
@@ -40,45 +39,58 @@ class LoginView(BaseLoginView):
     authentication_form = AuthenticationForm
 
 
-class RegisterCreateView(CreateView):
-    template_name = 'ecoke/register.html',
-    form_class = UserCreateForm,
-    success_url = '/register'
+def register(request):
+    if request.method == 'POST':
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            username = request.POST['username']
+            email = request.POST['email']
+            password1 = request.POST['password1']
+            # send email verification now
+            activation_key = helpers.generate_activation_key(username)
+            subject = "Account Verification"
+            # Split to one line to avoid header injection issues
+            subject = ''.join(subject.splitlines())
 
-    def form_valid(self, form):
-        username = form.cleaned_data['username']
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
-        # send email verification now
-        activation_key = helpers.generate_activation_key(username)
-        subject = "Account Verification"
+            # scheme = http/https, get_host = 127.0.0.1:8000
+            activate_url = "{0}://{1}/activate/account/?key={2}".format(request.scheme, request.get_host(), activation_key)
+            message = render_to_string('ecoke/includes/acc_active_email.html', {
+                'user': user,
+                'activate_url': activate_url
+            })
 
-        message = '''\n Please visit the following link to verify your account
-                    \n\n{0}://{1}/ecoke/activate/account/?key={2}
-                    '''.format(self.request.scheme, self.request.get_host(), activation_key)
+            mail = EmailMultiAlternatives(subject, message, settings.EMAIL_HOST, [email])
+            mail.attach_alternative(message, "text/html")
 
-        error = False
-        try:
-            send_mail(subject, message, settings.EMAIL_HOSgenerate_activation_keyT_USER, [email])
-            messages.add_message(self.request, messages.INFO, 'Account created! Click on the link sent to your email to activate the account')
-        except:
-            error = True
-            messages.add_message(self.request, messages.INFO, 'Unable to send email verification. Please try again')
+            error = False
+            try:
+                mail.send()
+                messages.add_message(request, messages.INFO, 'Account created! Click on the link sent to your email to activate the account')
+            except:
+                error = True
+                messages.add_message(request, messages.INFO, 'Unable to send email verification. Please try again')
 
-        if not error:
-            user = User.objects.create_user(
-                username,
-                email,
-                password,
-                is_active=0
-            )
+            if not error:
+                user.username = username
+                user.email = email
+                user.password1 = password1
+                user.is_active = 0
+                user.save()
+                user.profile.activation_key = activation_key
+                user.save()
 
-            profile = Profile()
-            profile.activation_key = activation_key
-            profile.user = user
-            profile.save()
+            return redirect(reverse('ecoke:register'))
+    else:
+        form = UserCreateForm()
+        form = UserCreateForm(initial={
+            'username': '',
+            'email': '',
+            'password1': '',
+            'password2': '',
+        })
 
-        return super(RegisterCreateView, self).form_valid(form)
+    return render(request, 'ecoke/register.html', {'form': form})
 
 
 def activate_account(request):
@@ -86,13 +98,17 @@ def activate_account(request):
     if not key:
         raise Http404
 
-    r = get_object_or_404(Profile, activation_key=key, email_validated=False)
+    # r = get_object_or_404(Profile, activation_key=key, email_validated=False)
+    try:
+        r = Profile.objects.get(activation_key=key, email_validated=False)
+    except Profile.DoesNotExist:
+        raise Http404('The activation link was already used!!!')
     r.user.is_active = True
     r.user.save()
     r.email_validated = True
     r.save()
 
-    return render(request, 'ecoke/includes/activated.html')
+    return redirect(reverse('ecoke:index'))
 
 
 @login_required
@@ -234,7 +250,7 @@ def feedback(request, username=None):
                 'email': email,
                 'message': message
             }
-            message = render_to_string('ecoke/includes/email_feedback.html', ctx)
+            message = render_to_string('ecoke/includes/_email_feedback.html', ctx)
 
             mail_admins(subject, message, fail_silently=True, html_message="text/html")
             form.save()
