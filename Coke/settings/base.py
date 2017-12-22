@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'ecoke',
+    'django.contrib.flatpages',
+    'django.contrib.sites',
+    'ecoke.apps.EcokeConfig',
 
     'crispy_forms',
     'rest_framework',
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'Coke.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -175,4 +176,6 @@ EMAIL_HOST = config('EMAIL_HOST', default='localhost')
 EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_SUBJECT_PREFIX='[ECOKE]'
+EMAIL_SUBJECT_PREFIX = '[ECOKE]'
+
+SITE_ID = 1

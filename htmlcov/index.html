@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">15%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>363</td>
+                <td>309</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="54 363">15%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="Coke___init___py.html">Coke/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke___init___py.html">ecoke/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_admin_py.html">ecoke/admin.py</a></td>
+                <td>11</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="11 11">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_api___init___py.html">ecoke/api/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_api_pagination_py.html">ecoke/api/pagination.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_api_serializers_py.html">ecoke/api/serializers.py</a></td>
+                <td>20</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 20">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_api_views_py.html">ecoke/api/views.py</a></td>
+                <td>24</td>
+                <td>24</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 24">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_forms_py.html">ecoke/forms.py</a></td>
+                <td>65</td>
+                <td>65</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 65">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_helpers_py.html">ecoke/helpers.py</a></td>
+                <td>6</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 6">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_models_py.html">ecoke/models.py</a></td>
+                <td>41</td>
+                <td>8</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="33 41">80%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_signals_py.html">ecoke/signals.py</a></td>
+                <td>13</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 13">77%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="ecoke_views_py.html">ecoke/views.py</a></td>
+                <td>180</td>
+                <td>180</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 180">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="fabfile_py.html">fabfile.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.4.2</a>,
+            created at 2017-12-22 19:46
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

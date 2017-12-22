@@ -2,6 +2,8 @@
 
 from django.test import TestCase
 from django.utils import timezone
+from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 
 from ecoke.models import Brand
 
@@ -67,6 +69,28 @@ class BrandModelTest(TestCase):
     def test_object_name_is_respondent_name_favourite_drink(self):
         expected_object_name = '{}-{}'.format(self.brand.respondent_name, self.brand.favourite_drink)
         self.assertEquals(expected_object_name, str(self.brand))
+
+    def test_uniqueness(self):
+        data1 = {
+            'collector_name': 'Chepe',
+            'respondent_name': 'Chitalo',
+            'respondent_city': 'Mavueni',
+            'favourite_drink': 'Sprite',
+            'date_of_collection': timezone.now().date()
+        }
+        with self.assertRaises(IntegrityError):
+            Brand.objects.create(**data1)
+
+    def test_favourite_drink_choices(self):
+        data = {
+            'collector_name': 'Ian',
+            'respondent_name': 'Winky',
+            'respondent_city': 'Mavueni',
+            'favourite_drink': 'Spritex',
+            'date_of_collection': timezone.now().date()
+        }
+        with self.assertRaises(ValidationError):
+            Brand.objects.create(**data)
 
     # test absolute urls
     # def test_get_absolute_url(self):

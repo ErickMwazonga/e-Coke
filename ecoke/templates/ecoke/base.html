@@ -43,6 +43,7 @@
             <li><a href="{% url 'api_brands:list' %}">API</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'eula' %}">License</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'ecoke:feedback' username=user.username %}">Feedback</a></li>
                     <li class="dropdown">

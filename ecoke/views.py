@@ -82,7 +82,7 @@ def register(request):
 
             return redirect(reverse('ecoke:register'))
     else:
-        form = UserCreateForm()
+        # form = UserCreateForm()
         form = UserCreateForm(initial={
             'username': '',
             'email': '',
@@ -108,7 +108,7 @@ def activate_account(request):
     r.email_validated = True
     r.save()
 
-    return redirect(reverse('ecoke:index'))
+    return redirect(reverse('ecoke:login'))
 
 
 @login_required
@@ -214,9 +214,7 @@ def brand_delete(request, pk):
         )
     else:
         context = {'brand': brand}
-        data['html_form'] = render_to_string('ecoke/brand_delete.html',
-            context,
-            request=request)
+        data['html_form'] = render_to_string('ecoke/brand_delete.html', context, request=request)
     return JsonResponse(data)
 
 

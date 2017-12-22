@@ -17,11 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.flatpages import views as flat_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('ecoke.urls')),
     url(r'^api/brands/', include('ecoke.api.urls')),
+
+    # flatpages
+    url(r'^eula/$', flat_views.flatpage, {'url': '/eula/'}, name='eula'),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,18 @@
+<!-- Homepage -->
+
+{% extends 'ecoke/base.html' %}
+
+{% block title %}
+    {{ flatpage.title }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ flatpage.title }}</h1>
+
+    <p>
+        {{ flatpage.content|linebreaks }}
+    </p>
+
+</div>
+{% endblock %}
