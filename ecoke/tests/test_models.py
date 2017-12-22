@@ -9,9 +9,13 @@ from ecoke.models import Brand
 
 
 class BrandModelTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        # Set up non-modified objects used by all test methods
+    # @classmethod
+    # def setUpTestData(cls):
+    #     # Set up non-modified objects used by all test methods
+    #
+    #     Brand.objects.create(**data)
+
+    def setUp(self):
         data = {
             'collector_name': 'Chepe',
             'respondent_name': 'Chitalo',
@@ -19,10 +23,23 @@ class BrandModelTest(TestCase):
             'favourite_drink': 'Fuze',
             'date_of_collection': timezone.now().date()
         }
-        Brand.objects.create(**data)
-
-    def setUp(self):
-        self.brand = Brand.objects.get(id=1)
+        data1 = {
+            'collector_name': 'Linkoln',
+            'respondent_name': 'Loop',
+            'respondent_city': 'Kalos',
+            'favourite_drink': 'Sprite',
+            'date_of_collection': (timezone.now()+timezone.timedelta(days=1)).date()
+        }
+        data2 = {
+            'collector_name': 'Sunday',
+            'respondent_name': 'May',
+            'respondent_city': 'Kalos',
+            'favourite_drink': 'Sprite',
+            'date_of_collection': (timezone.now()+timezone.timedelta(days=3)).date()
+        }
+        self.brand = Brand.objects.create(**data)
+        self.brand1 = Brand.objects.create(**data1)
+        self.brand2 = Brand.objects.create(**data2)
 
     def test_collector_name_label(self):
         field_label = self.brand._meta.get_field('collector_name').verbose_name
@@ -71,30 +88,41 @@ class BrandModelTest(TestCase):
         self.assertEquals(expected_object_name, str(self.brand))
 
     def test_uniqueness(self):
-        data1 = {
+        data_duplicate = {
             'collector_name': 'Chepe',
             'respondent_name': 'Chitalo',
-            'respondent_city': 'Mavueni',
-            'favourite_drink': 'Sprite',
+            'respondent_city': 'Kunde',
+            'favourite_drink': 'Fuze',
             'date_of_collection': timezone.now().date()
         }
         with self.assertRaises(IntegrityError):
-            Brand.objects.create(**data1)
+            Brand.objects.create(**data_duplicate)
 
     def test_favourite_drink_choices(self):
-        data = {
-            'collector_name': 'Ian',
-            'respondent_name': 'Winky',
-            'respondent_city': 'Mavueni',
-            'favourite_drink': 'Spritex',
+        data_with_wrong_choice = {
+            'collector_name': 'Singo',
+            'respondent_name': 'Dila',
+            'respondent_city': 'Matano Mane',
+            'favourite_drink': 'Wrong choice',
             'date_of_collection': timezone.now().date()
         }
         with self.assertRaises(ValidationError):
-            Brand.objects.create(**data)
+            Brand.objects.create(**data_with_wrong_choice)
+
+    def test_ordering(self):
+        self.assertEquals(list(Brand.objects.all()), [self.brand2, self.brand1, self.brand])
 
     # test absolute urls
     # def test_get_absolute_url(self):
     #     self.assertEquals(self.brand.get_absolute_url(), '/brand/1')
+
+    # test item is related to a list
+    # def test_item_is_related_to_list(self):
+    #     list_ = List.objects.create()
+    #     item = Item()
+    #     item.list = list_
+    #     item.save()
+    #     self.assertIn(item, list_.item_set.all())
 
 
 class ProfileModelTest(TestCase):
