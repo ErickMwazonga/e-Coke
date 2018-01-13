@@ -2,7 +2,8 @@
 *.sqlite3
 .DS_Store
 /site
-/static/
+static/
+media/
 
 
 ### Python ###

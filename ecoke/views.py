@@ -83,12 +83,6 @@ def register(request):
             return redirect(reverse('ecoke:register'))
     else:
         form = UserCreateForm()
-        # form = UserCreateForm(initial={
-        #     'username': '',
-        #     'email': '',
-        #     'password1': '',
-        #     'password2': '',
-        # })
 
     return render(request, 'ecoke/register.html', {'form': form})
 
@@ -250,7 +244,7 @@ def feedback(request, username=None):
             }
             message = render_to_string('ecoke/includes/_email_feedback.html', ctx)
 
-            mail_admins(subject, message, fail_silently=True, html_message="text/html")
+            mail_admins(subject, message, fail_silently=True, html_message=None)
             form.save()
 
             messages.add_message(request, messages.SUCCESS,
