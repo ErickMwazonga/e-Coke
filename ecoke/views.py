@@ -82,13 +82,13 @@ def register(request):
 
             return redirect(reverse('ecoke:register'))
     else:
-        # form = UserCreateForm()
-        form = UserCreateForm(initial={
-            'username': '',
-            'email': '',
-            'password1': '',
-            'password2': '',
-        })
+        form = UserCreateForm()
+        # form = UserCreateForm(initial={
+        #     'username': '',
+        #     'email': '',
+        #     'password1': '',
+        #     'password2': '',
+        # })
 
     return render(request, 'ecoke/register.html', {'form': form})
 
@@ -265,10 +265,7 @@ def feedback(request, username=None):
                 'email': user.email,
             })
         else:
-            form = FeedbackForm(initial={
-                'name': '',
-                'email': '',
-            })
+            form = FeedbackForm()
 
     return render(request, 'ecoke/feedback.html', {'form': form})
 

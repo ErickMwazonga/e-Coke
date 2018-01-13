@@ -39,16 +39,16 @@
                                     <label class="panel-login">
                                         <div class="login_result"></div>
                                     </label>
-                                    <input class="form-control" placeholder="Username"  name="username" value="{{ form.username.value }}" id="username" type="text">
+                                    <input class="form-control" placeholder="Username"  name="username" value="{{ form.username.value|default:'' }}" id="username" type="text">
                                     {{ form.username.errors }}
 
-                                    <input class="form-control" placeholder="Email"  name="email" value="{{ form.email.value }}" id="email" type="email">
+                                    <input class="form-control" placeholder="Email"  name="email" value="{{ form.email.value|default:'' }}" id="email" type="email">
                                     {{ form.email.errors }}
 
-                                    <input class="form-control" placeholder="Password" name="password1" value="{{ form.password1.value }}" id="password1" type="password">
+                                    <input class="form-control" placeholder="Password" name="password1" value="{{ form.password1.value|default:'' }}" id="password1" type="password">
                                     {{ form.password1.errors }}
 
-                                    <input class="form-control" placeholder="Comfirm Password" name="password2" value="{{ form.password2.value }}" id="password2" type="password">
+                                    <input class="form-control" placeholder="Comfirm Password" name="password2" value="{{ form.password2.value|default:'' }}" id="password2" type="password">
                                     {{ form.password2.errors }}
                                     <br>
 
