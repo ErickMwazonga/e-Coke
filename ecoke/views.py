@@ -217,9 +217,10 @@ def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="ecoke.csv"'
 
+    writer = csv.writer(response)
     brands = Brand.objects.all()
     headings = ['Collector', 'Respondent', 'City', 'Favourite Drink', 'Date of Collection']
-    writer = csv.writer(headings)
+    writer.writerow(headings)
 
     for brand in brands:
         writer.writerow([brand.collector_name, brand.respondent_name, brand.respondent_city, brand.favourite_drink, brand.date_of_collection])

@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'ecoke.apps.EcokeConfig',
 
+    # Third-party applications
     'crispy_forms',
     'rest_framework',
+    'pipeline',
 ]
 
 MIDDLEWARE = [
@@ -178,3 +180,51 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_SUBJECT_PREFIX = '[ECOKE]'
 
 SITE_ID = 1
+
+
+# Pipeline
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
+PIPELINE = {
+    'STYLESHEETS': {
+        'main': {
+            'source_filenames': (
+              'ecoke/css/auth.css',
+              'ecoke/css/bootstrap.min.css',
+              'ecoke/css/bootstrap.united.min.css',
+              'ecoke/css/style.css'
+            ),
+            'output_filename': 'css/main.css',
+            'extra_context': {
+                'media': 'screen,projection',
+            },
+            'variant': 'datauri', # Compress images and fonts
+        },
+    },
+    'JAVASCRIPT': {
+        'main': {
+            'source_filenames': (
+              'ecoke/js/alert_auto_dismiss.js',
+              'ecoke/js/bootstrap.min.js',
+              'ecoke/js/jquery.formset.js',
+              'ecoke/js/jquery.js',
+              'ecoke/js/modal.js',
+            ),
+            'output_filename': 'js/main.js',
+        }
+    },
+
+    # 'COMPILERS': {
+    #     'PIPELINE_COMPILERS':(
+    #         'pipeline.compilers.coffee.CoffeeScriptCompiler',
+    #         'pipeline.compilers.stylus.StylusCompiler',
+    #     ),
+    # } 
+
+}
