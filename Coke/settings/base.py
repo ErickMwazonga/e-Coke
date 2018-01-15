@@ -168,6 +168,12 @@ ADMINS = [
     ('Erick MM', 'erickmwazonga@gmail.com'),
 ]
 
+CONTACTS = {
+    'support_email': 'erickmwazonga@gmail.com',
+    'admin_email': 'emwazonga@gmail.com',
+    'info_email': 'emwazonga@gmail.com',
+}
+
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)

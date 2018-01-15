@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 from . import views
-from .views import IndexView, BrandListView, LoginView
+from .views import IndexView, BrandListView, LoginView, FeedbackFormView
 
 app_name = 'ecoke'
 
@@ -21,8 +21,8 @@ urlpatterns = [
     url(r'^settings/change-password/$', views.change_password, name='change_password'),
     url(r'^settings/profile/(?P<slug>[\w-]+)/$', views.ProfileDetailView.as_view(), name='profile'),
 
-    url(r'^feedback/$', views.feedback, name='feedback'),
-    url(r'^feedback/(?P<username>[\w-]+)/$', login_required(views.feedback), name='feedback'),
+    url(r'^feedback/$', FeedbackFormView.as_view(), name='feedback'),
+    url(r'^feedback/(?P<username>[\w-]+)/$', login_required(FeedbackFormView.as_view()), name='feedback'),
 
     url(r'^brand/csv$', views.export_csv, name="export_csv"),
 ]

@@ -15,7 +15,8 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse, Http4
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, mail_admins, EmailMultiAlternatives
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, \
+                                FormView
 from . import helpers
 # App imports
 from .models import Brand, Profile
@@ -228,41 +229,63 @@ def export_csv(request):
     return response
 
 
-def feedback(request, username=None):
-    if request.method == 'POST':
-        form = FeedbackForm(request.POST)
+class FeedbackFormView(FormView):
+    form_class = FeedbackForm
+    template_name = 'ecoke/feedback.html'
+
+    def get_initial(self):
+        if self.request.user.is_authenticated():
+            return {
+                'name': self.request.user.profile.get_screen_name,
+                'email': self.request.user.email,
+            }
+
+    def form_valid(self, form):
+        success_message = 'Thank you for your Feedback.'
+        messages.add_message(self.request, messages.SUCCESS, success_message)
+
+        return super(FeedbackFormView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        failure_message = 'Email not sent. Please try again.'
+        messages.add_message(self.request, messages.WARNING, failure_message)
+
+        return super(FeedbackFormView, self).form_invalid(form)
+
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
         if form.is_valid():
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
 
-            subject = "- A New Feedback"
+            support_email = settings.CONTACTS['support_email']
+
+            subject = "[e-Coke] A New Feedback"
             ctx = {
                 'name': name,
                 'email': email,
                 'message': message
             }
-            message = render_to_string('ecoke/includes/_email_feedback.html', ctx)
+            txt_message = render_to_string('ecoke/includes/_email_feedback.html', ctx)
 
-            mail_admins(subject, message, fail_silently=True, html_message=None)
-            form.save()
+            mail = EmailMultiAlternatives(subject, txt_message, email, [support_email])
+            mail.attach_alternative(txt_message, "text/html")
+            try:
+                mail.send()
+            except:
+                messages.add_message(request, messages.WARNING, 'Unable to send email verification. Please try again')
 
-            messages.add_message(request, messages.SUCCESS,
-                                 'Thank you for your Feedback.')
-            return redirect(reverse('ecoke:index'))
-
-    else:
-        if request.user.is_authenticated():
-            user = get_object_or_404(User, username=username)
-            form = FeedbackForm(instance=user, initial={
-                'name': user.profile.get_screen_name,
-                'email': user.email,
-            })
+            return self.form_valid(form)
         else:
-            form = FeedbackForm()
+            return self.form_invalid(form)
 
-    return render(request, 'ecoke/feedback.html', {'form': form})
+
+    def get_success_url(self):
+        return reverse('ecoke:index')
 
 
 @login_required
