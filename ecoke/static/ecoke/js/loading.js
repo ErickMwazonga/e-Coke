@@ -26,6 +26,8 @@ $('#contact_form').on('submit', function(e) {
             '<button type="button" class="close" data-dismiss="alert">' +
             '&times;</button>' + data.success + '</div>'
         );
+        // redirect
+        // window.location.replace('/');
       },
 
       error: function (data) {
