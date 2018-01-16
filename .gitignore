@@ -2,7 +2,7 @@
 *.sqlite3
 .DS_Store
 /site
-static/
+staticfiles/
 media/
 
 
