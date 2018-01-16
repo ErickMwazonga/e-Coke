@@ -240,17 +240,17 @@ class FeedbackFormView(FormView):
                 'email': self.request.user.email,
             }
 
-    def form_valid(self, form):
-        success_message = 'Thank you for your Feedback.'
-        messages.add_message(self.request, messages.SUCCESS, success_message)
+    # def form_valid(self, form):
+    #     success_message = 'Thank you for your Feedback.'
+    #     messages.add_message(self.request, messages.SUCCESS, success_message)
 
-        return super(FeedbackFormView, self).form_valid(form)
+    #     return super(FeedbackFormView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        failure_message = 'Email not sent. Please try again.'
-        messages.add_message(self.request, messages.WARNING, failure_message)
+    # def form_invalid(self, form):
+    #     failure_message = 'Email not sent. Please try again.'
+    #     messages.add_message(self.request, messages.WARNING, failure_message)
 
-        return super(FeedbackFormView, self).form_invalid(form)
+    #     return super(FeedbackFormView, self).form_invalid(form)
 
 
     def post(self, request, *args, **kwargs):
@@ -279,10 +279,11 @@ class FeedbackFormView(FormView):
             except:
                 messages.add_message(request, messages.WARNING, 'Unable to send email verification. Please try again')
 
-            return self.form_valid(form)
+            # return self.form_valid(form)
+            return JsonResponse({'success': 'Thank you for your Feedback.'})
         else:
-            return self.form_invalid(form)
-
+            # return self.form_invalid(form)
+            return JsonResponse({'error': 'Email not sent. Please try again.'})
 
     def get_success_url(self):
         return reverse('ecoke:index')

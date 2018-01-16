@@ -4,13 +4,25 @@
 
 {% block title %} Home {{ block.super }}{% endblock %}
 
+{% load staticfiles %}
+
 {% block content %}
 <div class="container">
     <div class="row" >
         <div class="col-md-offset-4 col-md-4" id="box">
             <h2 class="h2-box">Contact Us!</h2>
+            
+            <!-- Display ajax call response message -->
+            <h4 class="ajaxResponseDisplay"></h4>
+
+             <!-- Image loader -->
+            <div id='loader' style='display: none;' class="text-center">
+                <img src="{% static 'ecoke/images/giphy.gif' %}" width='100px' height='100px'>
+            </div>
+            <!-- Image loader -->
+
             <hr>
-            <form class="form-horizontal" action="" method="post" id="contact_form">
+            <form class="form-horizontal" action="{% url 'ecoke:feedback' %}" method="post" id="contact_form">
                 {% csrf_token %}
                 <fieldset>
                     <div class="form-group">
@@ -58,9 +70,11 @@
 
                     <div class="form-group">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-warning pull-right">Send <span class="glyphicon glyphicon-send"></span></button>
+                            <button type="submit" class="feedback btn btn-warning pull-right">Send <span class="glyphicon glyphicon-send"></span></button>
                         </div>
                     </div>
+
+
                 </fieldset>
             </form>
         </div>
