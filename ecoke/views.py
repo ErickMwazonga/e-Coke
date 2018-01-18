@@ -276,7 +276,8 @@ class FeedbackFormView(FormView):
             try:
                 mail.send()
             except:
-                messages.add_message(request, messages.WARNING, 'Unable to send email verification. Please try again')
+                return JsonResponse({'error': 'Email not sent. Please try again.'})
+                # messages.add_message(request, messages.WARNING, 'Unable to send email verification. Please try again')
 
             # return self.form_valid(form)
             return JsonResponse({'success': 'Thank you for your Feedback.'})

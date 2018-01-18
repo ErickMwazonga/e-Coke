@@ -34,7 +34,7 @@ $('#contact_form').on('submit', function(e) {
         $('.ajaxResponseDisplay').append(
            '<div class="alert alert-warning alert-dismissable">' +
             '<button type="button" class="close" data-dismiss="alert">' +
-            '&times;</button>' + data.success + '</div>'
+            '&times;</button>' + data.error + '</div>'
         );
       }
 
