@@ -6,7 +6,7 @@
 node {
 
     // environment {
-    //     DB_PASSWORD="$(env.DB_PASSWORD)"
+    //     DB_PASSWORD=migombani
     // }
 
     // The stage below is attempting to get the latest version of our application code.
@@ -47,27 +47,13 @@ node {
     // The code below assumes that you're using the django-jenkins python libary to run the test but you can
     // also use the built in django test runner, nose or tox
     stage ("Run Unit/Integration Tests") {
-        def testsError = null
-        try {
-            withEnv(['DB_PASSWORD=migombani']) {
-                sh '''
-                    virtualenv venv
-                    . venv/bin/activate
-                    python manage.py jenkins
-                    deactivate
-                   '''
-            }
-        }
-        catch(err) {
-            testsError = err
-            currentBuild.result = 'FAILURE'
-        }
-        finally {
-            junit 'reports/junit.xml'
-
-            if (testsError) {
-                throw testsError
-            }
+        withEnv(['DB_PASSWORD=migombani']) {
+            sh '''
+                virtualenv venv
+                . venv/bin/activate
+                python manage.py jenkins
+                deactivate
+               '''
         }
     }
 }
