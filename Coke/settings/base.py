@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '192.168.2.212']
 # Application definition
 
 INSTALLED_APPS = [
+    'suit',  # Custom Admin Interface Theme, added before django-admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
     'django.contrib.sites',
+
+    # Project Applications
     'ecoke.apps.EcokeConfig',
 
+    # Third party Applications
     'crispy_forms',
     'rest_framework',
 ]
@@ -184,3 +188,9 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_SUBJECT_PREFIX = '[ECOKE]'
 
 SITE_ID = 1
+
+# Django Suit configuration example
+SUIT_CONFIG = {
+    # header
+    'ADMIN_NAME': 'e-COKE',
+}
