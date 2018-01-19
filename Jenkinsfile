@@ -5,10 +5,9 @@
 
 node {
 
-    environment {
-        DB_PASSWORD="$(env.DB_PASSWORD)"
-    }
-
+    // environment {
+    //     DB_PASSWORD="$(env.DB_PASSWORD)"
+    // }
 
     // The stage below is attempting to get the latest version of our application code.
     // Since this is a multi-branch project the 'checkout scm' command is used. If you're working with a standard
@@ -33,12 +32,15 @@ node {
     // served separately outside the django application via apache or a CDN. This command will gather up all the static assets and
     // ready them for deployment.
     stage ("Collect Static files") {
-        sh '''
-            virtualenv venv
-            . venv/bin/activate
-            python manage.py collectstatic --noinput
-            deactivate
-           '''
+        withEnv(['DB_PASSWORD=migombani']) {
+            sh '''
+                virtualenv venv
+                . venv/bin/activate
+                python manage.py collectstatic --noinput
+                deactivate
+               '''
+        }
+
     }
 
     // After all of the dependencies are installed, you can start to run your tests.
@@ -47,12 +49,14 @@ node {
     stage ("Run Unit/Integration Tests") {
         def testsError = null
         try {
-            sh '''
-                virtualenv venv
-                . venv/bin/activate
-                python manage.py jenkins
-                deactivate
-               '''
+            withEnv(['DB_PASSWORD=migombani']) {
+                sh '''
+                    virtualenv venv
+                    . venv/bin/activate
+                    python manage.py jenkins
+                    deactivate
+                   '''
+            }
         }
         catch(err) {
             testsError = err
