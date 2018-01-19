@@ -43,7 +43,6 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'rest_framework',
-    # 'django_jenkins',
 ]
 
 MIDDLEWARE = [
@@ -185,11 +184,3 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_SUBJECT_PREFIX = '[ECOKE]'
 
 SITE_ID = 1
-
-
-# # Jenkins Configurations
-# JENKINS_TASKS = (
-#     # 'django_jenkins.tasks.run_pylint',
-#     'django_jenkins.tasks.with_coverage',
-# )
-# PROJECT_APPS = ['ecoke']

@@ -51,7 +51,7 @@ node {
             sh '''
                 virtualenv venv
                 . venv/bin/activate
-                python manage.py jenkins
+                python manage.py test
                 deactivate
                '''
         }
