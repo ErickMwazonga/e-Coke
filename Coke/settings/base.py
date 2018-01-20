@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # Project Applications
     'ecoke.apps.EcokeConfig',
+    'core',
 
     # Third party Applications
     'crispy_forms',

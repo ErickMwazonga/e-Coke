@@ -5,8 +5,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+# Project imports
+from core.models import TimeStampedModel
 
-class Profile(models.Model):
+
+class Profile(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
@@ -29,7 +32,7 @@ class Profile(models.Model):
         return self.user.username
 
 
-class Feedback(models.Model):
+class Feedback(TimeStampedModel):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     message = models.CharField(max_length=255)
@@ -39,7 +42,7 @@ class Feedback(models.Model):
 
 
 # Create your models here.
-class Brand(models.Model):
+class Brand(TimeStampedModel):
     '''
     A database representation of a Brand
     '''
