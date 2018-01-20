@@ -23,8 +23,8 @@ class FeedbackAdmin(admin.ModelAdmin):
     '''
     Customizing the Brand Admin Dashboard
     '''
-    list_display = ('name', 'email', 'message', 'created_at', 'updated_at')
-    search_fields = ('name', 'email', 'respondent_city',  'created_at', 'updated_at')
+    list_display = ('name', 'email', 'msg_short_description', 'created_at', 'updated_at')
+    search_fields = ('name', 'email', 'message',  'created_at', 'updated_at')
     list_filter = ('created_at',)
     ordering = ('-created_at',)
 
