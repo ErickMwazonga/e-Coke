@@ -26,7 +26,15 @@
             <a type="button" class="btn btn-primary" href={% url 'ecoke:brands' %}>
                 Click Here to View e-Coke
             </a>
+            <hr/>
+            <div class="addthis_inline_share_toolbox_bpdq addthis"></div>
+            
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %} 
+    <!-- Go to www.addthis.com/dashboard to customize your tools --> 
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a65ea1fdb069f81"></script>
 {% endblock %}
