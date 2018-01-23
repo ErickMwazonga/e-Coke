@@ -44,10 +44,14 @@ INSTALLED_APPS = [
     # Project Applications
     'ecoke.apps.EcokeConfig',
     'core',
+    'blogs',
 
     # Third party Applications
     'crispy_forms',
     'rest_framework',
+    'taggit',
+    'django_extensions',
+    'redactor',
 ]
 
 MIDDLEWARE = [

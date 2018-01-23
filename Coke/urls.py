@@ -19,6 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.flatpages import views as flat_views
 
+from blogs.feeds import LatestBlogsFeed
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('ecoke.urls')),
@@ -26,6 +28,12 @@ urlpatterns = [
 
     # flatpages
     url(r'^eula/$', flat_views.flatpage, {'url': '/eula/'}, name='eula'),
+
+    # Redactor WYSIWYG editor
+    url(r'^redactor/', include('redactor.urls')),
+
+    # RSS feeds.
+    url(r'^latest/feed/$', LatestBlogsFeed(), name='rss_feed'),
 ]
 
 if settings.DEBUG:
