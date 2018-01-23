@@ -3,28 +3,31 @@ from datetime import datetime
 from django.contrib import admin
 from django import forms
 
-from redactor.models import RedactorEditor
+from redactor.widgets import RedactorEditor
 
-from blogs.models import Blog, BlogAd
+from .models import Blog, BlogAd
 
 
 # Register your models here.
 class BlogAdminForm(forms.ModelForm):
-    def __int__(self, *args, **kwargs):
-        super(BlogAdminForm, self).__init__(*args, **kwargs)
+    class Meta:
+        model = Blog
+        widgets = {
+           'content': RedactorEditor(),
+        }
+        exclude = ('created_at', 'updated_at')
+        # fields = ('status', 'author', 'title', 'slug', 'content', 'tags', 'date_published')
 
-        self.fields['content'].widget = RedactorEditor()
 
-
-@admin.register(BlogAd)
+@admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     form = BlogAdminForm
 
     prepopulated_fields = {'slug': ('title',)}
-    readonly_fields = ('created_at', 'modified_at')
-    list_display = ('title', 'author', 'status', 'date_published', 'created',
-                    'modified', 'tag_list',)
-    list_select_related = ('author', 'tags')
+    readonly_fields = ('created_at', 'updated_at',)
+    list_display = ('title', 'author', 'status', 'date_published', 'created_at',
+                    'updated_at', 'tag_list',)
+    list_select_related = ('author',)
     list_filter = ('status', 'author', 'tags',)
     search_fields = ('title', 'content',)
     fieldsets = (
@@ -53,7 +56,7 @@ class BlogAdmin(admin.ModelAdmin):
         Set default author based on logged in user.
         """
         form = super(BlogAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['author'].initial = request.username
+        form.base_fields['author'].initial = request.user
 
         return form
 
@@ -68,6 +71,6 @@ class BlogAdmin(admin.ModelAdmin):
         super(BlogAdmin, self).save_model(request, obj, form, change)
 
 
-@admin.register(Blog)
+@admin.register(BlogAd)
 class BlogAdAdmin(admin.ModelAdmin):
-    list_display = ('description', 'position', 'created', 'modified')
+    list_display = ('description', 'position', 'created_at', 'updated_at')

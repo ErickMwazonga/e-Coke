@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 
 from django_extensions.db.fields import AutoSlugField
-from taggit.managerss import TaggableManager
+from taggit.managers import TaggableManager
 
 from core.models import TimeStampedModel
 
@@ -56,7 +56,7 @@ class Blog(TimeStampedModel):
     tags = TaggableManager(blank=True, help_text=None)
 
     class Meta:
-        ordering = ['-date_published', '-created']
+        ordering = ['-date_published', '-created_at']
 
     @property
     def is_published(self):
@@ -81,12 +81,12 @@ class BlogAd(TimeStampedModel):
         (BOTTOM, 'Bottom'),
     )
 
-    description = models.CharField(max_lenght=255, null=True, blank=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
     code = models.TextField()
     position = models.CharField(
         max_length=10,
         null=True,
-        _blank=True,
+        blank=True,
         choices=POSITION_CHOICES,
     )
 

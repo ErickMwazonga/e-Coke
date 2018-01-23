@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.2.212']
 
+# Run management command 'set_site_values to set these values
+SITE_NAME = 'e-Coke.com'
+SITE_DOMAIN = 'www.e-Coke.com'
+
 
 # Application definition
 
@@ -199,3 +203,12 @@ SUIT_CONFIG = {
     # header
     'ADMIN_NAME': 'e-COKE',
 }
+
+# Django WYSIWYG Redactor settings.
+REDACTOR_OPTIONS = {
+    'lang': 'en',
+    'buttonSource': 'true',
+    'toolbarFixed': 'true',
+    'minHeight': '200px'
+}
+REDACTOR_UPLOAD = 'editor-uploads/'
