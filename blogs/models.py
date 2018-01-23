@@ -22,7 +22,7 @@ class BlogManager(models.Manager):
         Return blog post that have a status of 'published' and date_published
         that is less than or equal to the current date and time
         """
-        return self.select_related().filter(
+        return self.filter(
             date_published__lte=timezone.now(),
             status__iexact='published'
         )
@@ -63,7 +63,7 @@ class Blog(TimeStampedModel):
         return self.status == 'published'
 
     def get_absolute_url(self):
-        return reverse('blog_detail_view', args=[self.slug])
+        return reverse('blogs:blog_detail_view', args=[self.slug])
 
     objects = BlogManager()
 

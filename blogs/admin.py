@@ -39,10 +39,6 @@ class BlogAdmin(admin.ModelAdmin):
         }),
     )
 
-    # using prefetch_related to minimize queries:
-    def get_queryset(self, request):
-        return super(BlogAdmin, self).get_queryset(request).prefetch_related('tags')
-
     def tag_list(self, obj):
         """
         Retrieve the tags separated by comma,

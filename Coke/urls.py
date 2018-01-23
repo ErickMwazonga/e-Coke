@@ -21,6 +21,8 @@ from django.contrib.flatpages import views as flat_views
 
 from blogs.feeds import LatestBlogsFeed
 
+admin.autodiscover()
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('ecoke.urls')),

@@ -1,0 +1,67 @@
+{% extends 'blogs/blog_base.html' %}
+
+{% block title %}{{ blog.title }} | {{ site_name }}{% endblock %}
+
+{% block heading %}
+    <h2>{{ blog.title|capfirst }}</h2>
+    <small>
+        <span class="text-muted">
+            {% if blog.is_published %}
+                <span class="fa fa-calendar"></span> {{ blog.date_published|date:'F j, Y' }}
+            {% else %}
+                {{ blog.status|capfirst }}
+            {% endif %}
+            by {{ blog.author.profile.get_screen_name }}
+        </span>
+        {% if user.is_superuser %}
+            <a href="{% url 'admin:blogs_blog_change' blog.id %}">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+    </small>
+{% endblock %}
+
+{% block bcontent %}
+    <div class="addthis_native_toolbox body" style="padding-bottom:10px;"></div>
+
+    <!-- Top Ad -->
+    {% if ad_top %}
+        {{ ad_top.code|safe }}
+    {% endif %}
+
+    <div style="font-size:15px;line-height:25px;">{{ blog.content|safe }}</div>
+
+    <!-- Bottom Ad -->
+    {% if ad_bottom %}
+        {{ ad_bottom.code|safe }}
+    {% endif %}
+
+    <div>
+    {% if blog.tags.exists %}
+        <p>
+            <span class="fa fa-tags"></span> <strong>Tags:</strong>
+            {% for tag in blog.tags.values %}
+                <a href="{% url 'blogs:blog_tag_list_view' tag.slug %}">{{ tag.name }}</a>
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block extrapanelsbefore %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="fa fa-list-alt"></span> <strong>Recent Posts</strong></h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+            {% for recent_blog in recent_blog_list %}
+                <li><a href="{% url 'blogs:blog_detail_view' recent_blog.slug %}">{{ recent_blog.title|capfirst }}</a></li>
+            {% endfor %}
+            </ul>
+            <a href="{% url 'blogs:blog_list_view' %}" class="btn btn-primary pull-right">See all posts...</a>
+        </div>
+    </div>
+{% endblock %}

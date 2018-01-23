@@ -11,6 +11,7 @@ class BlogBaseView(ContextMixin):
         context = super(BlogBaseView, self).get_context_data(**kwargs)
         context['blog_tags'] = TaggedItem.tags_for(Blog).order_by('name')
         context['recent_blog_list'] = Blog.objects.recent_posts()
+        # context['blog_list'] = Blog.objects.all()
 
         return context
 
@@ -31,9 +32,9 @@ class BlogDetailView(DetailView, BlogBaseView):
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         # To order randomly, use "?", like so, but it may be slow
-        context['add_top'] = BlogAd.objects.filter(postion=BlogAd.TOP).order_by('?').first()
-        context['add_middle'] = BlogAd.objects.filter(postion=BlogAd.MIDDLE).order_by('?').first()
-        context['add_bottom'] = BlogAd.objects.filter(postion=BlogAd.BOTTOM).order_by('?').first()
+        context['add_top'] = BlogAd.objects.filter(position=BlogAd.TOP).order_by('?').first()
+        context['add_middle'] = BlogAd.objects.filter(position=BlogAd.MIDDLE).order_by('?').first()
+        context['add_bottom'] = BlogAd.objects.filter(position=BlogAd.BOTTOM).order_by('?').first()
 
         return context
 
@@ -41,12 +42,18 @@ class BlogDetailView(DetailView, BlogBaseView):
 class BlogListView(ListView, BlogBaseView):
     model = Blog
     pagiante_by = 15
+    context_object_name = 'blog_list'
+    template_name = 'blogs/blog_list.html'
 
     def get_queryset(self):
         """
-        Only return public nlog posts.
+        Only return public blog posts.
         """
-        return Blog.objects.publicly_viewable()
+        if self.request.user.is_authenticated() and \
+                self.request.user.is_superuser:
+            return Blog.objects.all()
+        else:
+            return Blog.objects.publicly_viewable()
 
 
 class BlogTagListView(BlogListView):
@@ -57,3 +64,9 @@ class BlogTagListView(BlogListView):
     def get_queryset(self):
         result = super(BlogTagListView, self).get_queryset()
         return result.filter(tags__name=self.kwargs.get('tag'))
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogTagListView, self).get_context_data(**kwargs)
+        context['tag_name'] = self.kwargs.get('tag')
+
+        return context

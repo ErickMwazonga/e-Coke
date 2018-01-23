@@ -1,0 +1,59 @@
+{% extends 'ecoke/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% block breadcrumbs %}{% endblock %}
+
+        {# Heading row #}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-header">
+                        {% block heading %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+
+            {# content row#}
+            <div class="row">
+                <div class="col-md-8">
+                    {% block bcontent %}{% endblock %}
+                </div>
+                <div class="col-md-4">
+                    <!-- Mailing List Signup panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="fa fa-envelope-o"></span>
+                                <strong>Sign Up to Our Mailing List</strong>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <em>Receive news, updates, and announcements.</em>
+                            <br><br>
+                            <form id="mailing-list-signup-form" class="form-horizontal" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="email" name="email" class="form-control" id="input-email" placeholder="Your email address" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right">Sign Me Up!</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End Tags panel -->
+
+                    {% block extrapanelsbefore %}{% endblock %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
