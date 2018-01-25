@@ -54,6 +54,7 @@ class Blog(TimeStampedModel):
     content = models.TextField()
     date_published = models.DateTimeField(null=True, blank=True)
     tags = TaggableManager(blank=True, help_text=None)
+    rewards = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-date_published', '-created_at']

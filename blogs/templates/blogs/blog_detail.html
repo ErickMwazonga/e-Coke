@@ -1,6 +1,6 @@
 {% extends 'blogs/blog_base.html' %}
 
-{% block title %}{{ blog.title }} | {{ site_name }}{% endblock %}
+{% block title %}{{ blog.title }} | e-Coke {% endblock %}
 
 {% block heading %}
     <h2>{{ blog.title|capfirst }}</h2>
@@ -11,7 +11,10 @@
             {% else %}
                 {{ blog.status|capfirst }}
             {% endif %}
-            by {{ blog.author.profile.get_screen_name }}
+            by
+            <a href="{% url 'blogs:blog_author_list_view' blog.author.username %}">
+                {{ blog.author.username|title }}
+            </a>
         </span>
         {% if user.is_superuser %}
             <a href="{% url 'admin:blogs_blog_change' blog.id %}">
@@ -37,15 +40,23 @@
     {% endif %}
 
     <div>
-    {% if blog.tags.exists %}
-        <p>
-            <span class="fa fa-tags"></span> <strong>Tags:</strong>
-            {% for tag in blog.tags.values %}
-                <a href="{% url 'blogs:blog_tag_list_view' tag.slug %}">{{ tag.name }}</a>
-                {% if not forloop.last %}, {% endif %}
-            {% endfor %}
-        </p>
-    {% endif %}
+        {% if blog.tags.exists %}
+            <p>
+                <span class="fa fa-tags"></span> <strong>Tags:</strong>
+                {% for tag in blog.tags.values %}
+                    <a href="{% url 'blogs:blog_tag_list_view' tag.slug %}" class="label label-primary">{{ tag.name }}</a>
+                    {# {% if not forloop.last %}, {% endif %}#}
+                {% endfor %}
+                <span class="fa fa-thumbs-up rewards"></span>
+                <strong>Rewards:</strong>
+                <span class="label label-default" id="rewards_count">
+                    {{ blog.rewards }}
+                </span>
+                <a id="upvote" data-id="{{blog.id}}" class="label label-primary">
+                    <span class="fa fa-arrow-up"></span>Upvote
+                </a>
+            </p>
+        {% endif %}
     </div>
 
 {% endblock %}

@@ -21,7 +21,8 @@ from django.contrib.flatpages import views as flat_views
 
 from blogs.feeds import LatestBlogsFeed
 
-admin.autodiscover()
+from blogs.views import reward_blog
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,6 +38,7 @@ urlpatterns = [
 
     # RSS feeds.
     url(r'^latest/feed/$', LatestBlogsFeed(), name='rss_feed'),
+    url(r'^reward_blog/$', reward_blog, name='reward_blog'),
 ]
 
 if settings.DEBUG:

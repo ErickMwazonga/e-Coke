@@ -25,7 +25,7 @@ class BlogAdmin(admin.ModelAdmin):
 
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('created_at', 'updated_at',)
-    list_display = ('title', 'author', 'status', 'date_published', 'created_at',
+    list_display = ('title', 'author', 'status', 'date_published', 'rewards', 'created_at',
                     'updated_at', 'tag_list',)
     list_select_related = ('author',)
     list_filter = ('status', 'author', 'tags',)
@@ -35,7 +35,7 @@ class BlogAdmin(admin.ModelAdmin):
             'fields': ('status', 'author')
         }),
         ('Content', {
-            'fields': ('title', 'slug', 'content', 'tags', 'date_published')
+            'fields': ('title', 'slug', 'content',  'rewards', 'tags', 'date_published',)
         }),
     )
 

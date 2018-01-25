@@ -1,20 +1,25 @@
 {% extends 'blogs/blog_base.html' %}
 
-{% block title %}Blog Posts | {{ site_name }}{% endblock %}
+{% block title %}Blog Posts | e-Coke {% endblock %}
 
 {% block heading %}
     <h3>
-        <span class="fa fa-list-alt"></span> Blog Posts
+        <span class="fa fa-list-alt"></span>
+        {% if tag_name %}
+            Blog Posts in {{ tag_name|capfirst }}
+        {% elif author_name %}
+            Blog Posts By {{ author_name|capfirst }}
+        {% else %}
+            All Blog Posts
+        {% endif %}
+
         {% if user.is_superuser %}
             <a href="{% url 'admin:blogs_blog_add' %}" class="">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
             </a>
         {% endif %}
     </h3>
-    {% if tag_name %}
-        <span class="fa fa-tags"></span> <strong>By Tag:</strong>
-        {{ tag_name|capfirst }}
-    {% endif %}
+
 {% endblock %}
 
 {% block bcontent %}
@@ -26,13 +31,29 @@
                     <span class="fa fa-calendar"></span> {{ blog.date_published|date:'F j, Y' }}
                 {% else %}{{ blog.status|capfirst }}
                 {% endif %}
-                by {{ blog.author.profile.get_screen_name|title }}
+                by
+                <a href="{% url 'blogs:blog_author_list_view' blog.author.username %}">
+                    {{ blog.author.username|title }}
+                </a>
             </span>
-            {% if user.is_superuser %}
+            {% if user.is_superuser or blog.author == user %}
                 <a href="{% url 'admin:blogs_blog_change' blog.id %}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
             {% endif %}
+
+            <div>
+                {% if blog.tags.exists %}
+                    <p>
+                        <span class="fa fa-tags"></span> <strong>Tags:</strong>
+                        {% for tag in blog.tags.values %}
+                            <a href="{% url 'blogs:blog_tag_list_view' tag.slug %}" class="label label-primary">{{ tag.name }}</a>
+                            {# {% if not forloop.last %}, {% endif %}#}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+            </div>
+
             <hr>
         {% endfor %}
     {% else %}

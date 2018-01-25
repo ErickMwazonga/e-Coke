@@ -135,3 +135,12 @@ small {
 .input-group-addon {
     padding-bottom: 0 !important;
 }
+
+
+/* Blogs */
+.rewards {
+    margin-left: 15px;
+}
+#rewards_count {
+    margin-right: 5px;
+}

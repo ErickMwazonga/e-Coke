@@ -1,5 +1,6 @@
 from django.views.generic.base import ContextMixin
 from django.views.generic import DetailView, ListView
+from django.http import HttpResponse, JsonResponse
 
 from taggit.models import TaggedItem
 
@@ -49,6 +50,8 @@ class BlogListView(ListView, BlogBaseView):
         """
         Only return public blog posts.
         """
+        # blogs = [Blog.objects.filter(author=self.request.user).all()]
+        # if blog.user == self.request.user:
         if self.request.user.is_authenticated() and \
                 self.request.user.is_superuser:
             return Blog.objects.all()
@@ -70,3 +73,36 @@ class BlogTagListView(BlogListView):
         context['tag_name'] = self.kwargs.get('tag')
 
         return context
+
+
+class BlogAuthorListView(BlogListView):
+    """
+    Display a Blog List Page filtered by author,
+    """
+    slug_field = "username"
+
+    def get_queryset(self):
+        result = super(BlogAuthorListView, self).get_queryset()
+        # print(self.kwargs.get('username'))
+        return result.filter(author__username=self.kwargs.get('username'))
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogAuthorListView, self).get_context_data(**kwargs)
+        context['author_name'] = self.kwargs.get('username')
+
+        return context
+
+
+def reward_blog(request):
+    # if request.method == 'POST':
+    blog_id = request.POST.get('blog_id', None)
+
+    rewards = 0
+    if (blog_id):
+        blog = Blog.objects.get(id=int(blog_id))
+        if blog is not None:
+            rewards = blog.rewards + 1
+            blog.rewards = rewards
+            blog.save()
+
+    return HttpResponse(rewards)

@@ -79,6 +79,7 @@
     <footer class="footer">
         <p class="text-center">Copyright &copy;2017 e-Coke All Rights Reserved By Lolany Int.
         | <a class="link-blog" href="{% url 'blogs:blog_list_view' %}">Blog</a>
+        | <a class="link-blog" href="{% url 'eula' %}">Privacy</a>
     </footer>
 
     <!-- All the link to js scripts to come last. -->
@@ -86,6 +87,7 @@
     <script src="{% static 'ecoke/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'ecoke/js/alert_auto_dismiss.js' %}"></script>
     <script src="{% static 'ecoke/js/loading.js' %}"></script>
+    <script src="{% static 'blogs/js/rewards_ajax.js' %}"></script>
 
     <!-- other javascript block -->
     {% block javascript %} {% endblock %}
