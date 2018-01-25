@@ -7,10 +7,14 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, MultiWidgetField, Submit
 # App imports
 from .models import Brand, Feedback
+from .validators import validate_email_unique, validate_username_unique
 
 
 class UserCreateForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    username = forms.CharField(max_length=30,
+                               validators=[validate_username_unique])
+    email = forms.EmailField(required=True,
+                             validators=[validate_email_unique])
 
     class Meta:
         model = User
