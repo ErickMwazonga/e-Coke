@@ -88,9 +88,13 @@
     <script src="{% static 'ecoke/js/alert_auto_dismiss.js' %}"></script>
     <script src="{% static 'ecoke/js/loading.js' %}"></script>
     <script src="{% static 'blogs/js/rewards_ajax.js' %}"></script>
+    <script src="{% static 'ecoke/js/sweetalert2.all.min.js' %}"></script>
 
     <!-- other javascript block -->
     {% block javascript %} {% endblock %}
+
+    {% load sweetify %}
+    {% sweetify %}
 </body>
 
 </html>

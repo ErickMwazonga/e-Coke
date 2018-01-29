@@ -111,7 +111,8 @@ class BrandForm(forms.ModelForm):
 
     class Meta:
         model = Brand
-        fields = ['collector_name', 'respondent_name', 'respondent_city', 'favourite_drink', 'date_of_collection']
+        fields = ['collector_name', 'respondent_name', 'respondent_city',
+                  'favourite_drink', 'date_of_collection']
 
         widgets = {
             'date_of_collection': forms.SelectDateWidget(years=[str(val) for val in range(2005, 2020)]),
@@ -120,8 +121,8 @@ class BrandForm(forms.ModelForm):
 
 class BrandSearchForm(forms.Form):
     collector_name = forms.ModelChoiceField(
-        queryset = Brand.objects.values_list('collector_name', flat=True),
-        empty_label = "Choose a Collector"
+        queryset=Brand.objects.values_list('collector_name', flat=True),
+        empty_label="Choose a Collector"
     )
 
     def __init__(self, *args, **kwargs):

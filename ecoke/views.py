@@ -11,14 +11,18 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
-from django.shortcuts import render, get_object_or_404, redirect, reverse, Http404
+from django.shortcuts import render, get_object_or_404, redirect, \
+                            reverse, Http404
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
-from django.core.mail import send_mail, mail_admins, EmailMultiAlternatives
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, \
-                                FormView
-from . import helpers
+from django.core.mail import EmailMultiAlternatives
+from django.views.generic import TemplateView, ListView, DetailView, FormView
+
+from sweetify.views import SweetifySuccessMixin
+import sweetify
+
 # App imports
+from . import helpers
 from .models import Brand, Profile
 from .forms import BrandForm, BrandSearchForm, ProfileForm, \
                     ChangePasswordForm, FeedbackForm, UserCreateForm
@@ -35,9 +39,10 @@ class IndexView(TemplateView):
     template_name = 'ecoke/index.html'
 
 
-class LoginView(BaseLoginView):
+class LoginView(SweetifySuccessMixin, BaseLoginView):
     template_name = 'ecoke/login.html'
     authentication_form = AuthenticationForm
+    success_message = 'Welcome!'
 
 
 def register(request):
@@ -56,10 +61,13 @@ def register(request):
 
             # scheme = http/https, get_host = 127.0.0.1:8000
             activate_url = "{0}://{1}/activate/account/?key={2}".format(request.scheme, request.get_host(), activation_key)
-            message = render_to_string('ecoke/includes/acc_active_email.html', {
-                'user': user,
-                'activate_url': activate_url
-            })
+            message = render_to_string(
+                'ecoke/includes/acc_active_email.html',
+                {
+                    'user': user,
+                    'activate_url': activate_url
+                }
+            )
 
             mail = EmailMultiAlternatives(subject, message, settings.EMAIL_HOST, [email])
             mail.attach_alternative(message, "text/html")
@@ -67,10 +75,12 @@ def register(request):
             error = False
             try:
                 mail.send()
-                messages.add_message(request, messages.INFO, 'Account created! Click on the link sent to your email to activate the account')
+                sweetify.success(request, 'Welcome', text='Account created! Click on the link sent to your email to activate the account', persistent='OK')
+                # messages.add_message(request, messages.INFO, 'Account created! Click on the link sent to your email to activate the account')
             except:
                 error = True
-                messages.add_message(request, messages.INFO, 'Unable to send email verification. Please try again')
+                sweetify.error(request, 'Oh! NO', text='Unable to send email verification. Please try again', persistent='OK')
+                # messages.add_message(request, messages.INFO, 'Unable to send email verification. Please try again')
 
             if not error:
                 user.username = username
@@ -81,7 +91,7 @@ def register(request):
                 user.profile.activation_key = activation_key
                 user.save()
 
-            return redirect(reverse('ecoke:register'))
+            return redirect(reverse('ecoke:login'))
     else:
         form = UserCreateForm()
 
@@ -121,9 +131,12 @@ def edit_profile(request):
             user.profile.location = form.cleaned_data.get('location')
             user.profile.avatar = form.cleaned_data.get('avatar')
             user.save()
-            messages.add_message(request,
-                                 messages.SUCCESS,
-                                 'Your profile was successfully edited.')
+            # messages.add_message(request,
+            #                      messages.SUCCESS,
+            #                      'Your profile was successfully edited.')
+            sweetify.success(request, 'PROFILE!',
+                             text='Your profile was successfully edited.',
+                             persistent='OK')
             return redirect(reverse('ecoke:profile', kwargs={'slug': user.username}))
     else:
         form = ProfileForm(instance=user, initial={
@@ -299,8 +312,12 @@ def change_password(request):
             user.set_password(new_password)
             user.save()
             update_session_auth_hash(request, user)
-            messages.add_message(request, messages.SUCCESS,
-                                 'Your password was successfully changed.')
+            sweetify.success(request, 'PASSWORD!',
+                             text='Your password was successfully changed.',
+                             persistent='OK')
+
+            # messages.add_message(request, messages.SUCCESS,
+            #                      'Your password was successfully changed.')
             return redirect(reverse('ecoke:change_password'))
 
     else:

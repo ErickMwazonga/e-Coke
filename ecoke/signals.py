@@ -18,5 +18,6 @@ def validate_favourite_drink_choice(sender, instance, **kwargs):
     valid_types = [t[1] for t in sender.DRINKS]
     if instance.favourite_drink not in valid_types:
         raise ValidationError(
-            'Brand favourite drink Type "{}" is not one of the permitted values'.format(instance.favourite_drink)
+            'Brand favourite drink Type "{}" is not one of the \
+            permitted values'.format(instance.favourite_drink)
         )

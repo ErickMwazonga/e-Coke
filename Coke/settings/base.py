@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'taggit',
     'django_extensions',
     'redactor',
+    'sweetify',
 ]
 
 MIDDLEWARE = [

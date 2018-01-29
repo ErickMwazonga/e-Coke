@@ -76,5 +76,9 @@
         <!-- All the link to js scripts to come last. -->
         <script src="{% static 'ecoke/js/jquery.min.js' %}"></script>
         <script src="{% static 'ecoke/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'ecoke/js/sweetalert2.all.min.js' %}"></script>
+
+        {% load sweetify %}
+        {% sweetify %}
     </body>
 </html>
