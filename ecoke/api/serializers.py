@@ -22,6 +22,22 @@ brand_delete_url = HyperlinkedIdentityField(
 )
 
 
+class BrandDetailsSerializer(ModelSerializer):
+    """Serializer to map the MOdel instance into JSON format."""
+    class Meta:
+        model = Brand
+        fields = (
+            'collector_name',
+            'respondent_name',
+            'respondent_city',
+            'favourite_drink',
+            'date_of_collection',
+            'created_at',
+            'updated_at'
+        )
+        read_only_fields = ('created_at', 'updated_at')
+
+
 class BrandCreateSerializer(ModelSerializer):
     class Meta:
         model = Brand
@@ -65,3 +81,4 @@ class BrandRetrieveSerializer(ModelSerializer):
             'date_of_collection',
             'update_url'
         ]
+        read_only_fields = ('date_created', 'date_modified')

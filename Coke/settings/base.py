@@ -52,11 +52,13 @@ INSTALLED_APPS = [
 
     # Third party Applications
     'crispy_forms',
-    'rest_framework',
     'taggit',
     'django_extensions',
     'redactor',
     'sweetify',
+
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -99,7 +101,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'coke',
         'USER': 'postgres',
-        'PASSWORD': config('DB_PASSWORD'),  # change appropriately
+        # 'PASSWORD': config('DB_PASSWORD'),  # change appropriately
+        'PASSWORD': 'migombani',
         'PORT': 5432,
         'HOST': "127.0.0.1",
 
@@ -172,9 +175,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 

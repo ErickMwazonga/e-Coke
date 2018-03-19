@@ -5,7 +5,8 @@ from rest_framework.generics import (
     RetrieveAPIView,
     DestroyAPIView,
     UpdateAPIView,
-    RetrieveUpdateAPIView
+    RetrieveUpdateAPIView,
+    RetrieveUpdateDestroyAPIView
 )
 from rest_framework.filters import (
     SearchFilter,
@@ -23,6 +24,8 @@ from .serializers import (
     BrandListSerializer,
 )
 
+# from .permissions import IsOwner
+
 
 class BrandCreateAPIView(CreateAPIView):
     queryset = Brand.objects.all()
@@ -37,16 +40,26 @@ class BrandListAPIView(ListAPIView):
     pagination_class = BrandPageNumberPagination
 
 
+class BrandDetailsView(RetrieveUpdateDestroyAPIView):
+    """This class handles GET, PUT, PATCH and DELETE requests."""
+    queryset = Brand.objects.all()
+    serializer_class = BrandListSerializer
+    permission_classes = (
+            IsAuthenticated,
+            # IsOwner
+        )
+
+
 class BrandRetrieveAPIView(RetrieveAPIView):
-    queryset            = Brand.objects.all()
-    serializer_class    = BrandRetrieveSerializer
+    queryset  = Brand.objects.all()
+    serializer_class = BrandRetrieveSerializer
 
 
 class BrandUpdateAPIView(RetrieveUpdateAPIView):
-    queryset             = Brand.objects.all()
-    serializer_class     = BrandListSerializer
+    queryset  = Brand.objects.all()
+    serializer_class  = BrandListSerializer
 
 
 class BrandDeleteAPIView(DestroyAPIView):
-    queryset            = Brand.objects.all()
-    serializer_class    = BrandListSerializer
+    queryset = Brand.objects.all()
+    serializer_class = BrandListSerializer

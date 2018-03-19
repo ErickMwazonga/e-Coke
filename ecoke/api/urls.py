@@ -1,8 +1,8 @@
 # django imports
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 # DRF imports
-# from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework.authtoken.views import obtain_auth_token
 #  App imports
 from . import views
 from .views import (
@@ -10,7 +10,8 @@ from .views import (
     BrandListAPIView,
     BrandRetrieveAPIView,
     BrandUpdateAPIView,
-    BrandDeleteAPIView
+    BrandDeleteAPIView,
+    BrandDetailsView,
 )
 
 app_name = 'api_brands'
@@ -21,7 +22,9 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/$', BrandRetrieveAPIView.as_view(), name='detail'),
     url(r'^(?P<pk>\d+)/update/$', BrandUpdateAPIView.as_view(), name='update'),
     url(r'^(?P<pk>\d+)/delete/$', BrandDeleteAPIView.as_view(), name='delete'),
+    url(r'^(?P<pk>\d+)/details$', BrandDetailsView.as_view(), name="details"),
 
-
+    # Browsable API
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^get-token/', obtain_auth_token),
 ]
-# url(r'^api-token-auth/', obtain_jwt_token),

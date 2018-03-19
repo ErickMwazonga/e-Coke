@@ -13,7 +13,7 @@ __pycache__/
 local.py
 
 # Environments
-.env
+# .env
 .venv
 env/
 venv/
