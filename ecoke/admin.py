@@ -12,8 +12,8 @@ class BrandAdmin(admin.ModelAdmin):
     '''
     Customizing the Brand Admin Dashboard
     '''
-    list_display = ('collector_name', 'respondent_name', 'respondent_city', 'created_at', 'updated_at')
-    search_fields = ('collector_name', 'respondent_name', 'respondent_city',  'created_at', 'updated_at')
+    list_display = ('collector_name', 'respondent_name', 'respondent_city', 'favourite_drink', 'date_of_collection', 'created_at', 'updated_at')
+    search_fields = ('collector_name', 'respondent_name', 'respondent_city', 'favourite_drink', 'date_of_collection', 'created_at', 'updated_at')
     list_filter = ('date_of_collection',)
     ordering = ('-date_of_collection',)
 

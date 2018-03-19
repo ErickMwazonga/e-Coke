@@ -22,6 +22,7 @@ from .serializers import (
     BrandCreateSerializer,
     BrandRetrieveSerializer,
     BrandListSerializer,
+    BrandDetailsSerializer,
 )
 
 # from .permissions import IsOwner
@@ -40,16 +41,6 @@ class BrandListAPIView(ListAPIView):
     pagination_class = BrandPageNumberPagination
 
 
-class BrandDetailsView(RetrieveUpdateDestroyAPIView):
-    """This class handles GET, PUT, PATCH and DELETE requests."""
-    queryset = Brand.objects.all()
-    serializer_class = BrandListSerializer
-    permission_classes = (
-            IsAuthenticated,
-            # IsOwner
-        )
-
-
 class BrandRetrieveAPIView(RetrieveAPIView):
     queryset  = Brand.objects.all()
     serializer_class = BrandRetrieveSerializer
@@ -63,3 +54,13 @@ class BrandUpdateAPIView(RetrieveUpdateAPIView):
 class BrandDeleteAPIView(DestroyAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandListSerializer
+
+
+class BrandDetailsView(RetrieveUpdateDestroyAPIView):
+    """This class handles GET, PUT, PATCH and DELETE requests."""
+    queryset = Brand.objects.all()
+    serializer_class = BrandDetailsSerializer
+    permission_classes = (
+            IsAuthenticated,
+            # IsOwner
+        )

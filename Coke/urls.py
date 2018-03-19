@@ -27,7 +27,7 @@ from blogs.views import reward_blog
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('ecoke.urls')),
-    url(r'^api/brands/', include('ecoke.api.urls')),
+    url(r'^api/brands/', include('api.urls')),
     url(r'^blog/', include('blogs.urls')),
 
     # flatpages

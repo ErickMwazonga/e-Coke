@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'ecoke.apps.EcokeConfig',
     'core',
     'blogs',
+    'api',
 
     # Third party Applications
     'crispy_forms',

@@ -7,17 +7,17 @@ from ecoke.models import Brand
 
 # hyperlink to detail view
 brand_detail_url = HyperlinkedIdentityField(
-    view_name='api_brands:detail',
+    view_name='api:detail',
     lookup_field='pk',
 )
 # hyperlink to update view
 brand_update_url = HyperlinkedIdentityField(
-    view_name='api_brands:update',
+    view_name='api:update',
     lookup_field='pk',
 )
 # hyperlink to delete view
 brand_delete_url = HyperlinkedIdentityField(
-    view_name='api_brands:delete',
+    view_name='api:delete',
     lookup_field='pk',
 )
 

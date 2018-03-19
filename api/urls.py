@@ -14,7 +14,7 @@ from .views import (
     BrandDetailsView,
 )
 
-app_name = 'api_brands'
+app_name = 'api'
 
 urlpatterns = [
     url(r'^create$', BrandCreateAPIView.as_view(), name="create"),
@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/$', BrandRetrieveAPIView.as_view(), name='detail'),
     url(r'^(?P<pk>\d+)/update/$', BrandUpdateAPIView.as_view(), name='update'),
     url(r'^(?P<pk>\d+)/delete/$', BrandDeleteAPIView.as_view(), name='delete'),
-    url(r'^(?P<pk>\d+)/details$', BrandDetailsView.as_view(), name="details"),
+
+    url(r'^(?P<pk>\d+)/details/$', BrandDetailsView.as_view(), name="details"),
 
     # Browsable API
     url(r'^api-auth/', include('rest_framework.urls')),
