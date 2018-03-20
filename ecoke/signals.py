@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from rest_framework.authtoken.models import Token
 
@@ -25,7 +26,9 @@ def save_user_profile(sender, instance, created, **kwargs):
 #         )
 
 # This receiver handles token creation immediately a new user is created
-@receiver(post_save, sender=User)
+# @receiver(post_save, sender=User)
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+@receiver(post_save, sender=get_user_model)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
